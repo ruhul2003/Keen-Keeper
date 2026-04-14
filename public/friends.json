@@ -6,7 +6,7 @@
     "email": "john@example.com",
     "days_since_contact": 12,
     "status": "overdue",
-    "tags": ["college", "close friend"],
+    "tags": ["CLOSE FRIEND"],
     "bio": "Met in university. Love hiking together.",
     "goal": 14,
     "next_due_date": "2025-07-20"
@@ -18,7 +18,7 @@
     "email": "sarah@example.com",
     "days_since_contact": 5,
     "status": "ok",
-    "tags": ["work", "team"],
+    "tags": ["WORK"],
     "bio": "Colleague from office. Works in marketing.",
     "goal": 10,
     "next_due_date": "2025-07-25"
@@ -30,7 +30,7 @@
     "email": "ali@example.com",
     "days_since_contact": 20,
     "status": "overdue",
-    "tags": ["school", "friend"],
+    "tags": ["SCHOOL"],
     "bio": "School friend. Plays football together.",
     "goal": 15,
     "next_due_date": "2025-07-18"
@@ -42,7 +42,7 @@
     "email": "emily@example.com",
     "days_since_contact": 2,
     "status": "ok",
-    "tags": ["gym", "fitness"],
+    "tags": ["GYM", "FITNESS"],
     "bio": "Met at gym. Workout partner.",
     "goal": 7,
     "next_due_date": "2025-07-28"
@@ -54,7 +54,7 @@
     "email": "david@example.com",
     "days_since_contact": 30,
     "status": "overdue",
-    "tags": ["business", "client"],
+    "tags": ["BUSINESS"],
     "bio": "Client from freelancing project.",
     "goal": 20,
     "next_due_date": "2025-07-15"
@@ -66,7 +66,7 @@
     "email": "nusrat@example.com",
     "days_since_contact": 8,
     "status": "ok",
-    "tags": ["family", "cousin"],
+    "tags": ["FAMILY"],
     "bio": "Cousin. Visits during holidays.",
     "goal": 12,
     "next_due_date": "2025-07-22"
@@ -74,11 +74,11 @@
   {
     "id": 7,
     "name": "Michael Brown",
-    "picture": "https://images.unsplash.com/photo-1502767089025-6572583495b0",
+    "picture": "https://images.unsplash.com/photo-1524504388940-b1c1722653e1",
     "email": "michael@example.com",
     "days_since_contact": 16,
     "status": "overdue",
-    "tags": ["online", "gaming"],
+    "tags": ["ONLINE", "GAMING"],
     "bio": "Met through online games.",
     "goal": 10,
     "next_due_date": "2025-07-19"
@@ -90,7 +90,7 @@
     "email": "ayesha@example.com",
     "days_since_contact": 3,
     "status": "ok",
-    "tags": ["university", "classmate"],
+    "tags": ["UNIVERSITY"],
     "bio": "Classmate at university.",
     "goal": 7,
     "next_due_date": "2025-07-27"
@@ -102,7 +102,7 @@
     "email": "rahul@example.com",
     "days_since_contact": 25,
     "status": "overdue",
-    "tags": ["neighbor"],
+    "tags": ["NEIBOUR"],
     "bio": "Lives next door. Friendly person.",
     "goal": 14,
     "next_due_date": "2025-07-16"
@@ -114,7 +114,7 @@
     "email": "fatima@example.com",
     "days_since_contact": 6,
     "status": "ok",
-    "tags": ["friend", "travel"],
+    "tags": ["FRIEND", "TRAVEL"],
     "bio": "Travel buddy. Loves exploring new places.",
     "goal": 10,
     "next_due_date": "2025-07-24"
