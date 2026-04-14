@@ -4,15 +4,18 @@ const Friends = () => {
     const [friendsData, setFriendsData] = useState([]);
     const [loading, setLoading] = useState(true);
 
+    const statusStyles = {
+        "overdue": "bg-[#EF4444] text-white",
+        "Almost due": "bg-[#EFAD44] text-white",
+        "On Track": "bg-[#244D3F] text-white"
+    };
 
     useEffect(() => {
         const fetchFriends = async () => {
             try {
                 setLoading(true);
-
                 const res = await fetch('./friends.json');
                 const data = await res.json();
-
                 setFriendsData(data);
             } catch (error) {
                 console.log(error);
@@ -23,7 +26,6 @@ const Friends = () => {
 
         fetchFriends();
     }, []);
-
 
     return (
         <div className='w-9/12 mx-auto my-16'>
@@ -43,8 +45,14 @@ const Friends = () => {
 
                             <div className="text-center">
                                 <h2 className='text-lg font-semibold'>{friend.name}</h2>
-                                <p className='text-gray-600 text-sm'>{friend.days_since_contact}d ago</p>
+
+                                <p className="text-sm text-gray-500">
+                                    {friend.days_since_contact}d ago
+                                </p>
+
                                 <p className='text-gray-600'>{friend.email}</p>
+
+                                
 
                                 <div className="flex flex-wrap justify-center gap-2 mt-2">
                                     {friend.tags.map((tag, index) => (
@@ -55,6 +63,13 @@ const Friends = () => {
                                             {tag}
                                         </span>
                                     ))}
+                                </div>
+                                <div className="mt-2">
+                                    <span
+                                        className={`text-xs font-medium px-3 py-1 rounded-full ${statusStyles[friend.status]}`}
+                                    >
+                                        {friend.status}
+                                    </span>
                                 </div>
                             </div>
                         </div>
