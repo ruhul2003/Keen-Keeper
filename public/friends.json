@@ -1,0 +1,122 @@
+[
+  {
+    "id": 1,
+    "name": "John Doe",
+    "picture": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e",
+    "email": "john@example.com",
+    "days_since_contact": 12,
+    "status": "overdue",
+    "tags": ["college", "close friend"],
+    "bio": "Met in university. Love hiking together.",
+    "goal": 14,
+    "next_due_date": "2025-07-20"
+  },
+  {
+    "id": 2,
+    "name": "Sarah Khan",
+    "picture": "https://images.unsplash.com/photo-1494790108377-be9c29b29330",
+    "email": "sarah@example.com",
+    "days_since_contact": 5,
+    "status": "ok",
+    "tags": ["work", "team"],
+    "bio": "Colleague from office. Works in marketing.",
+    "goal": 10,
+    "next_due_date": "2025-07-25"
+  },
+  {
+    "id": 3,
+    "name": "Ali Rahman",
+    "picture": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d",
+    "email": "ali@example.com",
+    "days_since_contact": 20,
+    "status": "overdue",
+    "tags": ["school", "friend"],
+    "bio": "School friend. Plays football together.",
+    "goal": 15,
+    "next_due_date": "2025-07-18"
+  },
+  {
+    "id": 4,
+    "name": "Emily Smith",
+    "picture": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80",
+    "email": "emily@example.com",
+    "days_since_contact": 2,
+    "status": "ok",
+    "tags": ["gym", "fitness"],
+    "bio": "Met at gym. Workout partner.",
+    "goal": 7,
+    "next_due_date": "2025-07-28"
+  },
+  {
+    "id": 5,
+    "name": "David Lee",
+    "picture": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d",
+    "email": "david@example.com",
+    "days_since_contact": 30,
+    "status": "overdue",
+    "tags": ["business", "client"],
+    "bio": "Client from freelancing project.",
+    "goal": 20,
+    "next_due_date": "2025-07-15"
+  },
+  {
+    "id": 6,
+    "name": "Nusrat Jahan",
+    "picture": "https://images.unsplash.com/photo-1544005313-94ddf0286df2",
+    "email": "nusrat@example.com",
+    "days_since_contact": 8,
+    "status": "ok",
+    "tags": ["family", "cousin"],
+    "bio": "Cousin. Visits during holidays.",
+    "goal": 12,
+    "next_due_date": "2025-07-22"
+  },
+  {
+    "id": 7,
+    "name": "Michael Brown",
+    "picture": "https://images.unsplash.com/photo-1502767089025-6572583495b0",
+    "email": "michael@example.com",
+    "days_since_contact": 16,
+    "status": "overdue",
+    "tags": ["online", "gaming"],
+    "bio": "Met through online games.",
+    "goal": 10,
+    "next_due_date": "2025-07-19"
+  },
+  {
+    "id": 8,
+    "name": "Ayesha Islam",
+    "picture": "https://images.unsplash.com/photo-1524504388940-b1c1722653e1",
+    "email": "ayesha@example.com",
+    "days_since_contact": 3,
+    "status": "ok",
+    "tags": ["university", "classmate"],
+    "bio": "Classmate at university.",
+    "goal": 7,
+    "next_due_date": "2025-07-27"
+  },
+  {
+    "id": 9,
+    "name": "Rahul Sharma",
+    "picture": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e",
+    "email": "rahul@example.com",
+    "days_since_contact": 25,
+    "status": "overdue",
+    "tags": ["neighbor"],
+    "bio": "Lives next door. Friendly person.",
+    "goal": 14,
+    "next_due_date": "2025-07-16"
+  },
+  {
+    "id": 10,
+    "name": "Fatima Noor",
+    "picture": "https://images.unsplash.com/photo-1531123897727-8f129e1688ce",
+    "email": "fatima@example.com",
+    "days_since_contact": 6,
+    "status": "ok",
+    "tags": ["friend", "travel"],
+    "bio": "Travel buddy. Loves exploring new places.",
+    "goal": 10,
+    "next_due_date": "2025-07-24"
+  }
+]
