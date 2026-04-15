@@ -45,11 +45,12 @@ const Friends = () => {
 
                             <div className="text-center">
                                 <h2 className='text-lg font-semibold'>{friend.name}</h2>
-                                <p className="text-sm text-gray-500">
+                                <p className='mt-4'>{friend.bio}</p>
+                                <p className="text-sm mt-3 text-gray-500">
                                     {friend.days_since_contact}d ago
                                 </p>
 
-                                <p className='text-gray-600'>{friend.email}</p>
+                                <p className='mt-2 text-gray-600'>{friend.email}</p>
 
                                 
 
@@ -57,7 +58,7 @@ const Friends = () => {
                                     {friend.tags.map((tag, index) => (
                                         <span
                                             key={index}
-                                            className="text-xs bg-green-200 text-green-800 px-2 py-1 rounded-full"
+                                            className="text-xs mt-2 bg-green-200 text-green-800 px-2 py-1 rounded-full"
                                         >
                                             {tag}
                                         </span>
