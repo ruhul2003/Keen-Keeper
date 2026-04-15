@@ -40,12 +40,11 @@ const Friends = () => {
             ) : (
                 <div className='mt-6 w-full px-5 mx-auto py-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6'>
                     {friendsData.map((friend) => (
-                        <div key={friend.id} className='flex flex-col items-center gap-4 bg-[#E7F6F2] p-4 rounded-lg shadow-sm mt-4'>
+                        <div key={friend.id} className='flex flex-col border border-gray-300 items-center gap-4 bg-[#E7F6F2] p-4 rounded-lg shadow-sm mt-4'>
                             <img src={friend.picture} alt={friend.name} className='w-12 h-12 rounded-full' />
 
                             <div className="text-center">
                                 <h2 className='text-lg font-semibold'>{friend.name}</h2>
-
                                 <p className="text-sm text-gray-500">
                                     {friend.days_since_contact}d ago
                                 </p>
