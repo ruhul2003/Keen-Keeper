@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Friends = () => {
     const [friendsData, setFriendsData] = useState([]);
     const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
 
     const statusStyles = {
         "overdue": "bg-[#EF4444] text-white",
@@ -40,7 +42,11 @@ const Friends = () => {
             ) : (
                 <div className='mt-6 w-full px-5 mx-auto py-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6'>
                     {friendsData.map((friend) => (
-                        <div key={friend.id} className='flex flex-col border border-gray-300 items-center gap-4 bg-[#E7F6F2] p-4 rounded-lg shadow-sm mt-4'>
+                        <div
+                            key={friend.id}
+                            onClick={() => navigate(`/friends/${friend.id}`)}
+                            className='flex flex-col border border-gray-300 items-center gap-4 bg-[#E7F6F2] p-4 rounded-lg shadow-sm mt-4 cursor-pointer hover:scale-105 transition'
+                        >
                             <img src={friend.picture} alt={friend.name} className='w-12 h-12 rounded-full' />
 
                             <div className="text-center">
@@ -52,8 +58,6 @@ const Friends = () => {
 
                                 <p className='mt-2 text-gray-600'>{friend.email}</p>
 
-                                
-
                                 <div className="flex flex-wrap justify-center gap-2 mt-2">
                                     {friend.tags.map((tag, index) => (
                                         <span
@@ -64,6 +68,7 @@ const Friends = () => {
                                         </span>
                                     ))}
                                 </div>
+
                                 <div className="mt-2">
                                     <span
                                         className={`text-xs font-medium px-3 mt-3 py-1 rounded-full ${statusStyles[friend.status]}`}
@@ -71,7 +76,6 @@ const Friends = () => {
                                         {friend.status}
                                     </span>
                                 </div>
-                                
                             </div>
                         </div>
                     ))}
