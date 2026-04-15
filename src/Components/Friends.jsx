@@ -45,7 +45,7 @@ const Friends = () => {
 
                             <div className="text-center">
                                 <h2 className='text-lg font-semibold'>{friend.name}</h2>
-                                <p className='mt-4'>{friend.bio}</p>
+                                
                                 <p className="text-sm mt-3 text-gray-500">
                                     {friend.days_since_contact}d ago
                                 </p>
@@ -66,11 +66,12 @@ const Friends = () => {
                                 </div>
                                 <div className="mt-2">
                                     <span
-                                        className={`text-xs font-medium px-3 py-1 rounded-full ${statusStyles[friend.status]}`}
+                                        className={`text-xs font-medium px-3 mt-3 py-1 rounded-full ${statusStyles[friend.status]}`}
                                     >
                                         {friend.status}
                                     </span>
                                 </div>
+                                
                             </div>
                         </div>
                     ))}
