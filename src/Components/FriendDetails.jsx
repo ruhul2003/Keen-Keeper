@@ -1,24 +1,52 @@
-import React, { useEffect, useState } from 'react'; // React hooks
-import { useParams } from 'react-router-dom'; // to get URL params
-import { RiAlarmSnoozeLine } from "react-icons/ri"; // snooze icon
-import { FaBoxArchive } from "react-icons/fa6"; // archive icon
-import { FaTrashAlt } from "react-icons/fa"; // trash icon
-import { PiPhoneCallBold } from "react-icons/pi"; // call icon
-import { MdOutlineSms } from "react-icons/md"; // sms icon
-import { IoVideocamOutline } from "react-icons/io5"; // video icon
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { RiAlarmSnoozeLine } from "react-icons/ri";
+import { FaBoxArchive } from "react-icons/fa6";
+import { FaTrashAlt } from "react-icons/fa";
+import { PiPhoneCallBold } from "react-icons/pi";
+import { MdOutlineSms } from "react-icons/md";
+import { IoVideocamOutline } from "react-icons/io5";
+import { toast, ToastContainer } from 'react-toastify';
+import { ImCheckboxChecked } from "react-icons/im";
+import 'react-toastify/dist/ReactToastify.css';
 
 const FriendDetails = () => {
-    const { id } = useParams(); // get friend id from route
-    const [friend, setFriend] = useState(null); // store friend data
+    const { id } = useParams();
+    const [friend, setFriend] = useState(null);
 
-    // status color mapping
+    const call = () => {
+        toast.success(
+            <div className="flex items-center gap-2">
+                <ImCheckboxChecked className="text-white text-lg" />
+                <span className=' font-semibold'>Call with {friend.name}</span>
+            </div>
+        );
+    };
+
+    const text = () => {
+        toast.success(
+            <div className="flex items-center gap-2">
+                <ImCheckboxChecked className="text-white text-lg" />
+                <span className='font-semibold'>Message with {friend.name}</span>
+            </div>
+        );
+    };
+
+    const video = () => {
+        toast.success(
+            <div className="flex items-center gap-2">
+                <ImCheckboxChecked className="text-white text-lg" />
+                <span className='font-semibold'>Video Call with {friend.name}</span>
+            </div>
+        );
+    };
+
     const statusStyles = {
         "overdue": "bg-[#EF4444] text-white",
         "Almost due": "bg-[#EFAD44] text-white",
         "On Track": "bg-[#244D3F] text-white"
     };
 
-    // fetch friend data
     useEffect(() => {
         fetch('/friends.json')
             .then(res => res.json())
@@ -28,55 +56,48 @@ const FriendDetails = () => {
             });
     }, [id]);
 
-    // loading state
     if (!friend) {
         return <p className="text-center mt-10">Loading...</p>;
     }
 
     return (
-        <div className='bg-[#E9E9E9] w-9/12 mx-auto my-10 flex gap-6 rounded-md py-10 px-10'>
+        <div className='bg-[#eee1e1] w-9/12 mx-auto my-10 flex gap-6 rounded-md py-10 px-10'>
+
+            {/* TOAST CONTAINER */}
+            <ToastContainer
+                position="top-center"
+                autoClose={1200}
+                hideProgressBar
+            />
 
             {/* LEFT COLUMN */}
-            <div className='flex flex-col w-[320px] flex-shrink-0'>
+            <div className='flex flex-col w-[320px] shrink-0'>
 
-                {/* PROFILE CARD (FIXED SIZE) */}
                 <div className="bg-white w-full min-h-[350px] px-6 py-6 rounded-lg text-center flex flex-col">
-
-                    {/* profile image */}
                     <img src={friend.picture} className="w-24 h-24 rounded-full mx-auto" />
 
-                    {/* name */}
                     <h1 className="text-2xl font-bold mt-4">
                         {friend.name}
                     </h1>
 
-                    {/* status */}
                     <div className="my-3">
-                        <span
-                            className={`text-xs font-medium px-3 py-1 rounded-full ${statusStyles[friend.status]}`}
-                        >
+                        <span className={`text-xs font-medium px-3 py-1 rounded-full ${statusStyles[friend.status]}`}>
                             {friend.status}
                         </span>
                     </div>
 
-                    {/* tags (fixed spacing) */}
                     <div className="flex flex-wrap justify-center gap-2 mb-3">
                         {friend.tags.map((tag, index) => (
-                            <span
-                                key={index}
-                                className="text-xs bg-green-200 text-green-800 px-2 py-1 rounded-full"
-                            >
+                            <span key={index} className="text-xs bg-green-200 text-green-800 px-2 py-1 rounded-full">
                                 {tag}
                             </span>
                         ))}
                     </div>
 
-                    {/* bio */}
                     <p className="text-gray-600 text-[16px] mb-1">
                         {friend.bio}
                     </p>
 
-                    {/* email */}
                     <p className="text-[16px] text-gray-500 break-all mt-0">
                         {friend.email}
                     </p>
@@ -101,9 +122,7 @@ const FriendDetails = () => {
             {/* RIGHT COLUMN */}
             <div className='flex-1 items-center justify-center'>
 
-                {/* STATS ROW */}
                 <div className='flex gap-5'>
-
                     <div className='flex-1 text-center bg-white rounded-md p-4 min-h-[120px] flex flex-col justify-center'>
                         <h1 className='text-[30px] text-[#244D3F] font-semibold'>
                             {friend.days_since_contact}
@@ -123,7 +142,7 @@ const FriendDetails = () => {
                     </div>
 
                     <div className='flex-1 text-center bg-white rounded-md p-4 min-h-[120px] flex flex-col justify-center'>
-                        <h1 className='text-[20px] text-[#244D3F] font-semibold'>
+                        <h1 className='text-[30px] text-[#244D3F] font-semibold'>
                             {friend.next_due_date}
                         </h1>
                         <p className='text-gray-500 font-semibold'>
@@ -132,13 +151,12 @@ const FriendDetails = () => {
                     </div>
                 </div>
 
-                {/* RELATIONSHIP GOAL */}
                 <div className='w-full p-6 bg-white rounded-md mt-5'>
                     <div className='flex justify-between'>
                         <h1 className='text-[20px] font-semibold'>
                             Relationship Goal
                         </h1>
-                        <button className='px-3 py-1 bg-[#FAF8FC] border border-gray-200 font-semibold rounded-sm'>
+                        <button className='px-3 py-1 bg-[#FAF8FC] border border-gray-300 font-semibold rounded-sm'>
                             Edit
                         </button>
                     </div>
@@ -157,17 +175,17 @@ const FriendDetails = () => {
 
                     <div className='flex gap-4'>
 
-                        <div className='flex-1 flex flex-col items-center gap-3 bg-[#FAF8FC] p-4 rounded-md'>
+                        <div onClick={call} className='flex-1 flex flex-col items-center gap-3 bg-[#eee1e1] p-4 rounded-md hover:bg-[#e6d9d9] cursor-pointer'>
                             <PiPhoneCallBold className='text-[#244D3F] text-[32px]' />
                             <p className='font-semibold'>Call</p>
                         </div>
 
-                        <div className='flex-1 flex flex-col items-center gap-3 bg-[#FAF8FC] p-4 rounded-md'>
+                        <div onClick={text} className='flex-1 flex flex-col items-center gap-3 bg-[#eee1e1] p-4 rounded-md hover:bg-[#e6d9d9] cursor-pointer'>
                             <MdOutlineSms className='text-[#244D3F] text-[32px]' />
                             <p className='font-semibold'>Text</p>
                         </div>
 
-                        <div className='flex-1 flex flex-col items-center gap-3 bg-[#FAF8FC] p-4 rounded-md'>
+                        <div onClick={video} className='flex-1 flex flex-col items-center gap-3 bg-[#eee1e1] p-4 rounded-md hover:bg-[#e6d9d9] cursor-pointer'>
                             <IoVideocamOutline className='text-[#244D3F] text-[32px]' />
                             <p className='font-semibold'>Video</p>
                         </div>
