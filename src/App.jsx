@@ -4,11 +4,14 @@ import Timeline from "./Components/Timeline";
 import Stats from "./Components/Stats";
 import Home from "./Components/Home";
 import FriendDetails from "./Components/FriendDetails";
+import ErrorPage from "./Components/ErrorPage";
+
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Layout />,
+    errorElement: <ErrorPage />,
     children: [
       {
         index: true,
