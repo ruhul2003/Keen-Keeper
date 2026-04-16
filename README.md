@@ -1,16 +1,26 @@
-# React + Vite
+🤝 KeenKeeper
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Your personal shelf of meaningful connections. Browse, tend, and nurture the relationships that matter most.
 
-Currently, two official plugins are available:
+KeenKeeper helps you stay intentional about your friendships by tracking how and when you connect with the people you care about — so no one important quietly drifts away.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+📖 Description
+We all have friends we mean to call more often, catch up with, or simply check in on. KeenKeeper is a personal relationship tracker that logs your interactions — calls, texts, and video chats — and gives you a clear picture of how connected you actually are. Think of it as a friendship journal that keeps score, so your relationships stay warm and deliberate.
 
-## React Compiler
+✨ Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+📋 Interaction Timeline — A chronological log of every call, text, and video chat with your friends
+🔍 Filter by Type — Instantly filter your timeline by Call, Text, or Video interactions
+📊 Friendship Analytics — A beautiful donut chart breaking down your interaction habits at a glance
+🧠 Local Storage Persistence — All your data is saved in the browser; no account or server needed
+📱 Responsive Design — Works seamlessly on both desktop and mobile
+🎨 Clean & Minimal UI — Distraction-free interface focused on your relationships
 
-## Expanding the ESLint configuration
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+🛠️ Technologies Used
+1. React — Frontend UI framework
+2. Vite — Build tool and dev server
+3. Tailwind CSS — Utility-first styling
+4. react-minimal-pie-chart — Donut chart for analytics
+5. react-icons — Icon set (Pi, Md, Io5)
+6. localStorage — Client-side data persistence
