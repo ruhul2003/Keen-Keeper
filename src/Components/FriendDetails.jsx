@@ -17,15 +17,15 @@ const FriendDetails = () => {
     const [friend, setFriend] = useState(null);
     const saveToTimeline = (type) => {
     const newActivity = {
-        id: Date.now(), // unique id
+        id: Date.now(), 
         name: friend.name,
-        type: type, // call / text / video
+        type: type, 
         time: new Date().toLocaleString()
     };
 
     const existing = JSON.parse(localStorage.getItem("timeline")) || [];
 
-    existing.unshift(newActivity); // add newest first
+    existing.unshift(newActivity); 
 
     localStorage.setItem("timeline", JSON.stringify(existing));
 };
@@ -36,7 +36,7 @@ const FriendDetails = () => {
         toast.success(
             <div className="flex items-center gap-2">
                 <ImCheckboxChecked className="text-white text-lg" />
-                <span className='font-semibold'>Call with {friend.name}</span>
+                <span className='font-semibold text-black'>Call with {friend.name}</span>
             </div>
         );
     };
@@ -47,7 +47,7 @@ const FriendDetails = () => {
         toast.success(
             <div className="flex items-center gap-2">
                 <ImCheckboxChecked className="text-white text-lg" />
-                <span className='font-semibold'>Message with {friend.name}</span>
+                <span className='font-semibold text-black'>Message with {friend.name}</span>
             </div>
         );
     };
@@ -58,7 +58,7 @@ const FriendDetails = () => {
         toast.success(
             <div className="flex items-center gap-2">
                 <ImCheckboxChecked className="text-white text-lg" />
-                <span className='font-semibold'>Video Call with {friend.name}</span>
+                <span className='font-semibold text-black'>Video Call with {friend.name}</span>
             </div>
         );
     };
