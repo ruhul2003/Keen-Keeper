@@ -10,11 +10,29 @@ import { toast, ToastContainer } from 'react-toastify';
 import { ImCheckboxChecked } from "react-icons/im";
 import 'react-toastify/dist/ReactToastify.css';
 
+
+
 const FriendDetails = () => {
     const { id } = useParams();
     const [friend, setFriend] = useState(null);
+    const saveToTimeline = (type) => {
+    const newActivity = {
+        id: Date.now(), // unique id
+        name: friend.name,
+        type: type, // call / text / video
+        time: new Date().toLocaleString()
+    };
+
+    const existing = JSON.parse(localStorage.getItem("timeline")) || [];
+
+    existing.unshift(newActivity); // add newest first
+
+    localStorage.setItem("timeline", JSON.stringify(existing));
+};
 
     const call = () => {
+        saveToTimeline("Call");
+
         toast.success(
             <div className="flex items-center gap-2">
                 <ImCheckboxChecked className="text-white text-lg" />
@@ -24,6 +42,8 @@ const FriendDetails = () => {
     };
 
     const text = () => {
+        saveToTimeline("Text");
+
         toast.success(
             <div className="flex items-center gap-2">
                 <ImCheckboxChecked className="text-white text-lg" />
@@ -33,6 +53,8 @@ const FriendDetails = () => {
     };
 
     const video = () => {
+        saveToTimeline("Video");
+
         toast.success(
             <div className="flex items-center gap-2">
                 <ImCheckboxChecked className="text-white text-lg" />
@@ -184,7 +206,7 @@ const FriendDetails = () => {
 
                         <div onClick={video} className='flex flex-col items-center gap-3 bg-[#eee1e1] p-4 rounded-md hover:bg-[#e6d9d9] cursor-pointer'>
                             <IoVideocamOutline className='text-[#244D3F] text-[28px] lg:text-[32px]' />
-                            <p className='font-semibold'>Video</p>
+                            <p className='font-semibold'>Video Call</p>
                         </div>
 
                     </div>
