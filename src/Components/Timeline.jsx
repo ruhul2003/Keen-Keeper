@@ -57,7 +57,7 @@ const Timeline = () => {
             {/* EMPTY STATE */}
             {filtered.length === 0 ? (
                 <p className="text-gray-500 mt-4">
-                    No {filter === "All" ? "" : filter} activity yet.
+                    No {filter === "All" ? "" : filter} Activity Yet.
                 </p>
             ) : (
                 <div className="flex flex-col gap-3">
