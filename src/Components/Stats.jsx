@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useEffect, useState } from 'react';
 import { PieChart } from 'react-minimal-pie-chart';
 
@@ -5,7 +7,12 @@ const Stats = () => {
     const [data, setData] = useState([]);
 
     useEffect(() => {
-        const timeline = JSON.parse(localStorage.getItem("timeline")) || [];
+        let timeline = [];
+        try {
+            timeline = JSON.parse(localStorage.getItem("timeline")) || [];
+        } catch {
+            timeline = [];
+        }
 
         let call = 0;
         let text = 0;
@@ -44,16 +51,18 @@ const Stats = () => {
 
             {/* CHART CONTAINER */}
             <div className='w-[300px] h-[300px] mx-auto mt-10'>
-                <PieChart
-                    data={data}
-                    lineWidth={18}
-                    paddingAngle={8}
-                    segmentsShift={3}
-                    rounded
-                    animate
-                    startAngle={270}
-                    radius={45}
-                />
+                {data.length > 0 && (
+                    <PieChart
+                        data={data}
+                        lineWidth={18}
+                        paddingAngle={8}
+                        segmentsShift={3}
+                        rounded
+                        animate
+                        startAngle={270}
+                        radius={45}
+                    />
+                )}
             </div>
 
             {/* LEGEND */}

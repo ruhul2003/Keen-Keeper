@@ -1,10 +1,12 @@
+'use client';
+
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/navigation';
 
 const Friends = () => {
     const [friendsData, setFriendsData] = useState([]);
     const [loading, setLoading] = useState(true);
-    const navigate = useNavigate();
+    const router = useRouter();
 
     const statusStyles = {
         "overdue": "bg-[#EF4444] text-white",
@@ -16,11 +18,11 @@ const Friends = () => {
         const fetchFriends = async () => {
             try {
                 setLoading(true);
-                const res = await fetch('./friends.json');
+                const res = await fetch('/friends.json');
                 const data = await res.json();
                 setFriendsData(data);
             } catch (error) {
-                console.log(error);
+                console.error(error);
             } finally {
                 setLoading(false);
             }
@@ -44,10 +46,10 @@ const Friends = () => {
                     {friendsData.map((friend) => (
                         <div
                             key={friend.id}
-                            onClick={() => navigate(`/friends/${friend.id}`)}
+                            onClick={() => router.push(`/friends/${friend.id}`)}
                             className='flex flex-col border border-gray-300 items-center gap-4 bg-[#E7F6F2] p-4 rounded-lg shadow-sm mt-4 cursor-pointer hover:scale-105 transition'
                         >
-                            <img src={friend.picture} alt={friend.name} className='w-12 h-12 rounded-full' />
+                            <img src={friend.picture} alt={friend.name} className='w-12 h-12 rounded-full object-cover' />
 
                             <div className="text-center">
                                 <h2 className='text-lg font-semibold'>{friend.name}</h2>
@@ -71,7 +73,7 @@ const Friends = () => {
 
                                 <div className="mt-2">
                                     <span
-                                        className={`text-xs font-medium px-3 mt-3 py-1 rounded-full ${statusStyles[friend.status]}`}
+                                        className={`text-xs font-medium px-3 mt-3 py-1 rounded-full ${statusStyles[friend.status] || 'bg-gray-400 text-white'}`}
                                     >
                                         {friend.status}
                                     </span>

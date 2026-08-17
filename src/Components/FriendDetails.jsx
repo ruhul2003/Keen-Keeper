@@ -1,5 +1,7 @@
+'use client';
+
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'next/navigation';
 import { RiAlarmSnoozeLine } from "react-icons/ri";
 import { FaBoxArchive } from "react-icons/fa6";
 import { FaTrashAlt } from "react-icons/fa";
@@ -8,29 +10,32 @@ import { MdOutlineSms } from "react-icons/md";
 import { IoVideocamOutline } from "react-icons/io5";
 import { toast, ToastContainer } from 'react-toastify';
 import { ImCheckboxChecked } from "react-icons/im";
-import 'react-toastify/dist/ReactToastify.css';
-
-
 
 const FriendDetails = () => {
-    const { id } = useParams();
+    const params = useParams();
+    const id = params?.id;
     const [friend, setFriend] = useState(null);
+
     const saveToTimeline = (type) => {
-    const newActivity = {
-        id: Date.now(), 
-        name: friend.name,
-        type: type, 
-        time: new Date().toLocaleString()
+        if (!friend) return;
+        const newActivity = {
+            id: Date.now(), 
+            name: friend.name,
+            type: type, 
+            time: new Date().toLocaleString()
+        };
+
+        try {
+            const existing = JSON.parse(localStorage.getItem("timeline")) || [];
+            existing.unshift(newActivity); 
+            localStorage.setItem("timeline", JSON.stringify(existing));
+        } catch (e) {
+            console.error("Error saving timeline activity", e);
+        }
     };
 
-    const existing = JSON.parse(localStorage.getItem("timeline")) || [];
-
-    existing.unshift(newActivity); 
-
-    localStorage.setItem("timeline", JSON.stringify(existing));
-};
-
     const call = () => {
+        if (!friend) return;
         saveToTimeline("Call");
 
         toast.success(
@@ -42,6 +47,7 @@ const FriendDetails = () => {
     };
 
     const text = () => {
+        if (!friend) return;
         saveToTimeline("Text");
 
         toast.success(
@@ -53,6 +59,7 @@ const FriendDetails = () => {
     };
 
     const video = () => {
+        if (!friend) return;
         saveToTimeline("Video");
 
         toast.success(
@@ -70,12 +77,14 @@ const FriendDetails = () => {
     };
 
     useEffect(() => {
+        if (!id) return;
         fetch('/friends.json')
             .then(res => res.json())
             .then(data => {
-                const foundFriend = data.find(f => f.id === parseInt(id));
+                const foundFriend = data.find(f => f.id === parseInt(id, 10));
                 setFriend(foundFriend);
-            });
+            })
+            .catch(err => console.error("Error fetching friend details", err));
     }, [id]);
 
     if (!friend) {
@@ -91,20 +100,20 @@ const FriendDetails = () => {
             <div className='flex flex-col w-full lg:w-[320px]'>
 
                 <div className="bg-white w-full min-h-[350px] px-6 py-6 rounded-lg text-center flex flex-col">
-                    <img src={friend.picture} className="w-24 h-24 rounded-full mx-auto" />
+                    <img src={friend.picture} alt={friend.name} className="w-24 h-24 rounded-full mx-auto object-cover" />
 
                     <h1 className="text-2xl font-bold mt-4">
                         {friend.name}
                     </h1>
 
                     <div className="my-3">
-                        <span className={`text-xs font-medium px-3 py-1 rounded-full ${statusStyles[friend.status]}`}>
+                        <span className={`text-xs font-medium px-3 py-1 rounded-full ${statusStyles[friend.status] || 'bg-gray-400 text-white'}`}>
                             {friend.status}
                         </span>
                     </div>
 
                     <div className="flex flex-wrap justify-center gap-2 mb-3">
-                        {friend.tags.map((tag, index) => (
+                        {friend.tags?.map((tag, index) => (
                             <span key={index} className="text-xs bg-green-200 text-green-800 px-2 py-1 rounded-full">
                                 {tag}
                             </span>

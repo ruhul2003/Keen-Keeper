@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState } from 'react';
 import { PiPhoneCallBold } from "react-icons/pi";
 import { MdOutlineSms } from "react-icons/md";
@@ -7,6 +9,7 @@ const Timeline = () => {
 
     // Load activities from localStorage
     const [activities] = useState(() => {
+        if (typeof window === 'undefined') return [];
         try {
             const data = JSON.parse(localStorage.getItem("timeline"));
             return Array.isArray(data) ? data : [];
@@ -64,7 +67,7 @@ const Timeline = () => {
                     {filtered.map(item => (
                         <div
                             key={item.id}
-                            className="bg-white p-4 rounded-md shadow-sm flex items-center gap-4"
+                            className="bg-white p-4 rounded-md shadow-sm flex items-center gap-4 border border-gray-100"
                         >
                             <div>{iconMap[item.type]}</div>
                             <div>
