@@ -31,7 +31,7 @@ const SnoozeModal = ({ isOpen, onClose, friend, onUpdated }) => {
         window.dispatchEvent(new Event('keen_keeper_updated'));
       }
       onClose();
-    } catch (err) {
+    } catch {
       toast.error('Failed to snooze friend');
     } finally {
       setLoading(false);
@@ -48,7 +48,7 @@ const SnoozeModal = ({ isOpen, onClose, friend, onUpdated }) => {
         window.dispatchEvent(new Event('keen_keeper_updated'));
       }
       onClose();
-    } catch (err) {
+    } catch {
       toast.error('Failed to wake friend');
     } finally {
       setLoading(false);

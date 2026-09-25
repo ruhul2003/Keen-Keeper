@@ -214,7 +214,7 @@ export async function fetchActivities(filters = {}) {
     if (typeof window !== "undefined" && Array.isArray(data)) {
       try {
         localStorage.setItem("timeline", JSON.stringify(data));
-      } catch (e) {
+      } catch {
         // ignore storage quota error
       }
     }

@@ -57,7 +57,7 @@ const Timeline = () => {
       if (typeof window !== 'undefined') {
         window.dispatchEvent(new Event('keen_keeper_updated'));
       }
-    } catch (err) {
+    } catch {
       toast.error('Failed to delete activity');
     }
   };

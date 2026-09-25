@@ -78,7 +78,7 @@ const FriendDetails = () => {
       if (typeof window !== 'undefined') {
         window.dispatchEvent(new Event('keen_keeper_updated'));
       }
-    } catch (err) {
+    } catch {
       toast.error('Failed to update archive status');
     }
   };
@@ -96,7 +96,7 @@ const FriendDetails = () => {
       }));
       setNewNoteText('');
       toast.success('Memory note added!');
-    } catch (err) {
+    } catch {
       toast.error('Failed to add note');
     } finally {
       setAddingNote(false);
@@ -112,7 +112,7 @@ const FriendDetails = () => {
         notes: (prev.notes || []).filter((n) => n.id !== noteId),
       }));
       toast.info('Note removed');
-    } catch (err) {
+    } catch {
       toast.error('Failed to remove note');
     }
   };

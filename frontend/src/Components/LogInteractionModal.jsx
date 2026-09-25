@@ -28,7 +28,7 @@ const LogInteractionModal = ({ isOpen, onClose, friend, initialType = 'Call', on
     e.preventDefault();
     try {
       setSaving(true);
-      const res = await logActivity({
+      await logActivity({
         friendId: friend.id,
         name: friend.name,
         type: type,
