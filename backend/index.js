@@ -5,6 +5,7 @@ import { toNodeHandler } from "better-auth/node";
 import { auth } from "./lib/auth.js";
 import { connectDB } from "./lib/db.js";
 import friendsRouter from "./routes/friends.js";
+import activitiesRouter from "./routes/activities.js";
 
 dotenv.config();
 
@@ -30,6 +31,7 @@ app.use(express.json());
 
 // Routes
 app.use("/api/friends", friendsRouter);
+app.use("/api/activities", activitiesRouter);
 
 // Health Check Route
 app.get("/api/health", (req, res) => {
