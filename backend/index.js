@@ -6,6 +6,7 @@ import { auth } from "./lib/auth.js";
 import { connectDB } from "./lib/db.js";
 import friendsRouter from "./routes/friends.js";
 import activitiesRouter from "./routes/activities.js";
+import analyticsRouter from "./routes/analytics.js";
 
 dotenv.config();
 
@@ -32,6 +33,7 @@ app.use(express.json());
 // Routes
 app.use("/api/friends", friendsRouter);
 app.use("/api/activities", activitiesRouter);
+app.use("/api/analytics", analyticsRouter);
 
 // Health Check Route
 app.get("/api/health", (req, res) => {
