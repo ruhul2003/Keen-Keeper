@@ -7,6 +7,7 @@ import { connectDB } from "./lib/db.js";
 import friendsRouter from "./routes/friends.js";
 import activitiesRouter from "./routes/activities.js";
 import analyticsRouter from "./routes/analytics.js";
+import backupRouter from "./routes/backup.js";
 
 dotenv.config();
 
@@ -34,6 +35,7 @@ app.use(express.json());
 app.use("/api/friends", friendsRouter);
 app.use("/api/activities", activitiesRouter);
 app.use("/api/analytics", analyticsRouter);
+app.use("/api/backup", backupRouter);
 
 // Health Check Route
 app.get("/api/health", (req, res) => {
