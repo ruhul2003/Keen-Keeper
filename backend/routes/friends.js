@@ -258,4 +258,163 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
+// PATCH /api/friends/:id/snooze - Snooze reminders for a friend
+router.patch("/:id/snooze", async (req, res) => {
+  try {
+    const idParam = req.params.id;
+    const days = parseInt(req.body.days, 10) || 7;
+    const query = !isNaN(idParam) ? { id: parseInt(idParam, 10) } : { _id: new ObjectId(idParam) };
+
+    const snoozedUntil = new Date(Date.now() + days * 24 * 60 * 60 * 1000);
+    const updateResult = await db.collection("friends").findOneAndUpdate(
+      query,
+      {
+        $set: {
+          snoozedUntil: snoozedUntil,
+          status: "Snoozed",
+          updatedAt: new Date(),
+        },
+      },
+      { returnDocument: "after" }
+    );
+
+    res.json(updateResult.value || updateResult);
+  } catch (error) {
+    console.error("Error snoozing friend:", error);
+    res.status(500).json({ error: "Failed to snooze friend" });
+  }
+});
+
+// PATCH /api/friends/:id/unsnooze - Remove snooze
+router.patch("/:id/unsnooze", async (req, res) => {
+  try {
+    const idParam = req.params.id;
+    const query = !isNaN(idParam) ? { id: parseInt(idParam, 10) } : { _id: new ObjectId(idParam) };
+
+    const friend = await db.collection("friends").findOne(query);
+    if (!friend) return res.status(404).json({ error: "Friend not found" });
+
+    const newStatus = calculateStatus(friend.days_since_contact, friend.goal, null);
+    const updateResult = await db.collection("friends").findOneAndUpdate(
+      query,
+      {
+        $set: {
+          snoozedUntil: null,
+          status: newStatus,
+          updatedAt: new Date(),
+        },
+      },
+      { returnDocument: "after" }
+    );
+
+    res.json(updateResult.value || updateResult);
+  } catch (error) {
+    console.error("Error un-snoozing friend:", error);
+    res.status(500).json({ error: "Failed to un-snooze friend" });
+  }
+});
+
+// PATCH /api/friends/:id/archive - Toggle or set archive status
+router.patch("/:id/archive", async (req, res) => {
+  try {
+    const idParam = req.params.id;
+    const query = !isNaN(idParam) ? { id: parseInt(idParam, 10) } : { _id: new ObjectId(idParam) };
+
+    const friend = await db.collection("friends").findOne(query);
+    if (!friend) return res.status(404).json({ error: "Friend not found" });
+
+    const newArchived = req.body.isArchived !== undefined ? Boolean(req.body.isArchived) : !friend.isArchived;
+
+    await db.collection("friends").updateOne(query, {
+      $set: { isArchived: newArchived, updatedAt: new Date() },
+    });
+
+    const updated = await db.collection("friends").findOne(query);
+    res.json(updated);
+  } catch (error) {
+    console.error("Error archiving friend:", error);
+    res.status(500).json({ error: "Failed to update archive status" });
+  }
+});
+
+// PATCH /api/friends/:id/goal - Quickly update relationship cadence goal
+router.patch("/:id/goal", async (req, res) => {
+  try {
+    const idParam = req.params.id;
+    const goal = parseInt(req.body.goal, 10);
+    if (!goal || goal <= 0) {
+      return res.status(400).json({ error: "A positive goal day count is required" });
+    }
+
+    const query = !isNaN(idParam) ? { id: parseInt(idParam, 10) } : { _id: new ObjectId(idParam) };
+    const friend = await db.collection("friends").findOne(query);
+    if (!friend) return res.status(404).json({ error: "Friend not found" });
+
+    const nextDueDate = new Date(Date.now() + goal * 24 * 60 * 60 * 1000)
+      .toISOString()
+      .split("T")[0];
+    const newStatus = calculateStatus(friend.days_since_contact, goal, friend.snoozedUntil);
+
+    await db.collection("friends").updateOne(query, {
+      $set: {
+        goal: goal,
+        next_due_date: nextDueDate,
+        status: newStatus,
+        updatedAt: new Date(),
+      },
+    });
+
+    const updated = await db.collection("friends").findOne(query);
+    res.json(updated);
+  } catch (error) {
+    console.error("Error updating goal:", error);
+    res.status(500).json({ error: "Failed to update relationship goal" });
+  }
+});
+
+// POST /api/friends/:id/notes - Add a relationship memory / note
+router.post("/:id/notes", async (req, res) => {
+  try {
+    const idParam = req.params.id;
+    const { text } = req.body;
+    if (!text || !text.trim()) {
+      return res.status(400).json({ error: "Note text is required" });
+    }
+
+    const query = !isNaN(idParam) ? { id: parseInt(idParam, 10) } : { _id: new ObjectId(idParam) };
+    const newNote = {
+      id: "note_" + Date.now(),
+      text: text.trim(),
+      date: new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }),
+      createdAt: new Date(),
+    };
+
+    await db.collection("friends").updateOne(query, {
+      $push: { notes: { $each: [newNote], $position: 0 } },
+    });
+
+    res.status(201).json(newNote);
+  } catch (error) {
+    console.error("Error adding note:", error);
+    res.status(500).json({ error: "Failed to add note" });
+  }
+});
+
+// DELETE /api/friends/:id/notes/:noteId - Remove a note
+router.delete("/:id/notes/:noteId", async (req, res) => {
+  try {
+    const { id: idParam, noteId } = req.params;
+    const query = !isNaN(idParam) ? { id: parseInt(idParam, 10) } : { _id: new ObjectId(idParam) };
+
+    await db.collection("friends").updateOne(query, {
+      $pull: { notes: { id: noteId } },
+    });
+
+    res.json({ message: "Note removed successfully", noteId });
+  } catch (error) {
+    console.error("Error removing note:", error);
+    res.status(500).json({ error: "Failed to remove note" });
+  }
+});
+
 export default router;
