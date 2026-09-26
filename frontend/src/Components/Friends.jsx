@@ -2,14 +2,22 @@
 
 import React, { useEffect, useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
-import { fetchFriends } from '../lib/api';
-import { RiSearchLine, RiFilter3Line, RiSortAsc, RiUserSmileLine } from 'react-icons/ri';
+import { fetchFriends, toggleFavoriteFriend } from '../lib/api';
+import {
+  RiSearchLine,
+  RiFilter3Line,
+  RiSortAsc,
+  RiUserSmileLine,
+  RiStarFill,
+  RiStarLine,
+} from 'react-icons/ri';
 
 const Friends = () => {
   const [friendsData, setFriendsData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedStatus, setSelectedStatus] = useState('All');
+  const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
   const [selectedTag, setSelectedTag] = useState('All');
   const [sortBy, setSortBy] = useState('default');
   const router = useRouter();
@@ -28,6 +36,7 @@ const Friends = () => {
         search: searchTerm,
         status: selectedStatus,
         tag: selectedTag,
+        favorites: showFavoritesOnly,
         sort: sortBy !== 'default' ? sortBy : undefined,
       });
       setFriendsData(Array.isArray(data) ? data : []);
@@ -38,13 +47,35 @@ const Friends = () => {
     }
   };
 
+  const handleToggleFavorite = async (e, friend) => {
+    e.stopPropagation();
+    const newFav = !friend.isFavorite;
+    // Optimistic UI update
+    setFriendsData((prev) =>
+      prev.map((f) => (f.id === friend.id ? { ...f, isFavorite: newFav } : f))
+    );
+
+    try {
+      await toggleFavoriteFriend(friend.id, newFav);
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new Event('keen_keeper_updated'));
+      }
+    } catch (err) {
+      console.error('Failed to update favorite:', err);
+      // Revert on error
+      setFriendsData((prev) =>
+        prev.map((f) => (f.id === friend.id ? { ...f, isFavorite: friend.isFavorite } : f))
+      );
+    }
+  };
+
   useEffect(() => {
     loadFriends();
 
     const handleUpdate = () => loadFriends();
     window.addEventListener('keen_keeper_updated', handleUpdate);
     return () => window.removeEventListener('keen_keeper_updated', handleUpdate);
-  }, [searchTerm, selectedStatus, selectedTag, sortBy]);
+  }, [searchTerm, selectedStatus, selectedTag, sortBy, showFavoritesOnly]);
 
   // Extract all unique tags
   const allTags = useMemo(() => {
@@ -103,6 +134,18 @@ const Friends = () => {
               {st}
             </button>
           ))}
+
+          <button
+            onClick={() => setShowFavoritesOnly(!showFavoritesOnly)}
+            className={`text-xs px-3 py-1.5 rounded-full font-medium transition flex items-center gap-1.5 ${
+              showFavoritesOnly
+                ? 'bg-amber-500 text-white shadow-xs'
+                : 'bg-amber-50 text-amber-800 hover:bg-amber-100 border border-amber-200'
+            }`}
+          >
+            <RiStarFill className={showFavoritesOnly ? 'text-white' : 'text-amber-500'} />
+            Favorites
+          </button>
         </div>
 
         {/* TAG & SORT CONTROLS */}
@@ -165,6 +208,21 @@ const Friends = () => {
               onClick={() => router.push(`/friends/${friend.id || friend._id}`)}
               className="group flex flex-col justify-between border border-gray-200/80 bg-white p-5 rounded-xl shadow-xs hover:shadow-md hover:-translate-y-1 transition-all duration-200 cursor-pointer relative"
             >
+              {/* FAVORITE STAR TOGGLE */}
+              <button
+                type="button"
+                onClick={(e) => handleToggleFavorite(e, friend)}
+                className={`absolute top-3.5 left-3.5 p-1.5 rounded-full transition z-10 ${
+                  friend.isFavorite
+                    ? 'text-amber-400 bg-amber-50 hover:bg-amber-100 ring-1 ring-amber-300'
+                    : 'text-gray-300 hover:text-amber-400 hover:bg-gray-100'
+                }`}
+                title={friend.isFavorite ? 'Favorited / Pinned to Shelf' : 'Add to Favorites'}
+                aria-label={friend.isFavorite ? 'Unfavorite friend' : 'Favorite friend'}
+              >
+                {friend.isFavorite ? <RiStarFill className="text-base" /> : <RiStarLine className="text-base" />}
+              </button>
+
               {/* STATUS BADGE */}
               <div className="absolute top-3.5 right-3.5">
                 <span
