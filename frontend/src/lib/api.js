@@ -331,3 +331,67 @@ export async function fetchAnalyticsSummary() {
     return null;
   }
 }
+
+/**
+ * Fetch upcoming birthdays within 30 days
+ */
+export async function fetchUpcomingBirthdays() {
+  try {
+    const res = await fetch(`${API_BASE}/api/friends/upcoming/birthdays`, {
+      cache: "no-store",
+    });
+    if (!res.ok) throw new Error("Failed to fetch birthdays");
+    return await res.json();
+  } catch (err) {
+    console.warn("Backend birthdays endpoint unavailable, calculating locally:", err.message);
+    try {
+      const friends = await fetchFriends();
+      const upcoming = [];
+      const now = new Date();
+      const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+      for (const friend of friends) {
+        if (!friend.birthday) continue;
+        const parts = String(friend.birthday).split("-");
+        let month, day, year = null;
+        if (parts.length === 3) {
+          year = parseInt(parts[0], 10);
+          month = parseInt(parts[1], 10);
+          day = parseInt(parts[2], 10);
+        } else if (parts.length === 2) {
+          month = parseInt(parts[0], 10);
+          day = parseInt(parts[1], 10);
+        } else {
+          continue;
+        }
+
+        if (isNaN(month) || isNaN(day)) continue;
+
+        let nextBday = new Date(now.getFullYear(), month - 1, day);
+        if (nextBday < today) {
+          nextBday = new Date(now.getFullYear() + 1, month - 1, day);
+        }
+
+        const diffDays = Math.round((nextBday.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+        if (diffDays <= 30) {
+          upcoming.push({
+            id: friend.id,
+            name: friend.name,
+            picture: friend.picture,
+            birthday: friend.birthday,
+            daysRemaining: diffDays,
+            isToday: diffDays === 0,
+            turningAge: year ? nextBday.getFullYear() - year : null,
+            formattedDate: nextBday.toLocaleDateString("en-US", { month: "short", day: "numeric" }),
+          });
+        }
+      }
+
+      upcoming.sort((a, b) => a.daysRemaining - b.daysRemaining);
+      return upcoming;
+    } catch {
+      return [];
+    }
+  }
+}
+
