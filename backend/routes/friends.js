@@ -1,6 +1,7 @@
 import express from "express";
 import { db } from "../lib/db.js";
 import { ObjectId } from "mongodb";
+import { validateFriendInput } from "../lib/validation.js";
 
 const router = express.Router();
 
@@ -109,8 +110,9 @@ router.post("/", async (req, res) => {
   try {
     const { name, email, phone, picture, bio, goal, tags } = req.body;
 
-    if (!name || !name.trim()) {
-      return res.status(400).json({ error: "Friend name is required" });
+    const validation = validateFriendInput(req.body, false);
+    if (!validation.isValid) {
+      return res.status(400).json({ error: validation.errors[0], errors: validation.errors });
     }
 
     // Determine the next integer ID
@@ -177,6 +179,11 @@ router.put("/:id", async (req, res) => {
       query = { _id: new ObjectId(idParam) };
     } else {
       query = { id: idParam };
+    }
+
+    const validation = validateFriendInput(req.body, true);
+    if (!validation.isValid) {
+      return res.status(400).json({ error: validation.errors[0], errors: validation.errors });
     }
 
     const { name, email, phone, picture, bio, goal, tags, days_since_contact } = req.body;
