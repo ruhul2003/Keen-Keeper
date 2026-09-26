@@ -7,11 +7,15 @@ const router = express.Router();
 // GET /api/activities - List all activities with optional filters
 router.get("/", async (req, res) => {
   try {
-    const { type, friendId, search, limit } = req.query;
+    const { type, friendId, search, limit, sentiment } = req.query;
     const query = {};
 
     if (type && type !== "All") {
       query.type = type;
+    }
+
+    if (sentiment && sentiment !== "All") {
+      query.sentiment = sentiment;
     }
 
     if (friendId) {
@@ -21,7 +25,7 @@ router.get("/", async (req, res) => {
 
     if (search && search.trim()) {
       const regex = new RegExp(search.trim(), "i");
-      query.$or = [{ name: regex }, { notes: regex }, { type: regex }];
+      query.$or = [{ name: regex }, { notes: regex }, { type: regex }, { location: regex }];
     }
 
     const maxResults = parseInt(limit, 10) || 100;
@@ -42,7 +46,7 @@ router.get("/", async (req, res) => {
 // POST /api/activities - Log a new interaction
 router.post("/", async (req, res) => {
   try {
-    const { friendId, name, type, notes, time, date } = req.body;
+    const { friendId, name, type, notes, time, date, duration, location, sentiment, rating } = req.body;
 
     if (!type) {
       return res.status(400).json({ error: "Activity type is required" });
@@ -62,6 +66,8 @@ router.post("/", async (req, res) => {
 
     const activityTime = time || new Date().toLocaleString();
     const createdAt = date ? new Date(date) : new Date();
+    const parsedDuration = duration ? parseInt(duration, 10) : null;
+    const activitySentiment = sentiment || rating || "Great";
 
     const newActivity = {
       id: Date.now(),
@@ -69,6 +75,9 @@ router.post("/", async (req, res) => {
       name: friendName || "Friend",
       type: type, // "Call" | "Text" | "Video" | "In-Person" | "Coffee/Hangout"
       notes: notes ? notes.trim() : "",
+      duration: parsedDuration && !isNaN(parsedDuration) ? parsedDuration : null,
+      location: location ? String(location).trim() : "",
+      sentiment: activitySentiment,
       time: activityTime,
       createdAt: createdAt,
     };
