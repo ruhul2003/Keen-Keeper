@@ -20,6 +20,9 @@ const LogInteractionModal = ({ isOpen, onClose, friend, initialType = 'Call', on
   const [type, setType] = useState(initialType);
   const [notes, setNotes] = useState('');
   const [date, setDate] = useState(() => new Date().toISOString().split('T')[0]);
+  const [duration, setDuration] = useState('');
+  const [location, setLocation] = useState('');
+  const [sentiment, setSentiment] = useState('Great');
   const [saving, setSaving] = useState(false);
 
   if (!isOpen || !friend) return null;
@@ -34,6 +37,9 @@ const LogInteractionModal = ({ isOpen, onClose, friend, initialType = 'Call', on
         type: type,
         notes: notes.trim(),
         date: date,
+        duration: duration ? parseInt(duration, 10) : null,
+        location: location.trim(),
+        sentiment: sentiment,
         time: `${new Date().toLocaleDateString()} at ${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`,
       });
 
@@ -59,6 +65,9 @@ const LogInteractionModal = ({ isOpen, onClose, friend, initialType = 'Call', on
       }
 
       setNotes('');
+      setDuration('');
+      setLocation('');
+      setSentiment('Great');
       onClose();
     } catch (err) {
       console.error(err);
@@ -115,17 +124,76 @@ const LogInteractionModal = ({ isOpen, onClose, friend, initialType = 'Call', on
             </div>
           </div>
 
-          {/* DATE */}
+          {/* DATE & DURATION */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label className="block text-xs font-semibold text-gray-700 uppercase tracking-wide mb-1">
+                Date
+              </label>
+              <input
+                type="date"
+                value={date}
+                onChange={(e) => setDate(e.target.value)}
+                className="w-full px-3.5 py-2 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#244D3F] focus:outline-none"
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-semibold text-gray-700 uppercase tracking-wide mb-1">
+                Duration (minutes)
+              </label>
+              <input
+                type="number"
+                min="1"
+                max="600"
+                placeholder="e.g. 30"
+                value={duration}
+                onChange={(e) => setDuration(e.target.value)}
+                className="w-full px-3.5 py-2 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#244D3F] focus:outline-none"
+              />
+            </div>
+          </div>
+
+          {/* LOCATION / HANGOUT SPOT */}
           <div>
             <label className="block text-xs font-semibold text-gray-700 uppercase tracking-wide mb-1">
-              Date
+              Location / Spot (Optional)
             </label>
             <input
-              type="date"
-              value={date}
-              onChange={(e) => setDate(e.target.value)}
+              type="text"
+              placeholder="e.g. Central Perk Cafe, Phone, Zoom, Downtown Park"
+              value={location}
+              onChange={(e) => setLocation(e.target.value)}
               className="w-full px-3.5 py-2 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#244D3F] focus:outline-none"
             />
+          </div>
+
+          {/* SENTIMENT / MOOD */}
+          <div>
+            <label className="block text-xs font-semibold text-gray-700 uppercase tracking-wide mb-1.5">
+              Interaction Mood & Sentiment
+            </label>
+            <div className="grid grid-cols-4 gap-2">
+              {[
+                { label: 'Great', emoji: '😍', border: 'border-emerald-200', active: 'bg-emerald-50 text-emerald-800 ring-2 ring-emerald-500' },
+                { label: 'Good', emoji: '😊', border: 'border-blue-200', active: 'bg-blue-50 text-blue-800 ring-2 ring-blue-500' },
+                { label: 'Neutral', emoji: '😐', border: 'border-gray-200', active: 'bg-gray-100 text-gray-800 ring-2 ring-gray-400' },
+                { label: 'Challenging', emoji: '🫂', border: 'border-amber-200', active: 'bg-amber-50 text-amber-800 ring-2 ring-amber-500' },
+              ].map((s) => (
+                <button
+                  type="button"
+                  key={s.label}
+                  onClick={() => setSentiment(s.label)}
+                  className={`flex flex-col items-center py-2 px-1 rounded-xl text-xs font-medium border transition ${
+                    sentiment === s.label
+                      ? s.active
+                      : 'bg-gray-50 border-gray-200 text-gray-600 hover:bg-gray-100'
+                  }`}
+                >
+                  <span className="text-base mb-0.5">{s.emoji}</span>
+                  <span>{s.label}</span>
+                </button>
+              ))}
+            </div>
           </div>
 
           {/* CONVERSATION NOTES */}
