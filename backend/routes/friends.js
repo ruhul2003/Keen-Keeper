@@ -84,6 +84,83 @@ router.get("/", async (req, res) => {
   }
 });
 
+// Helper: calculate upcoming birthday info within 30 days
+function getBirthdayDetails(birthdayStr) {
+  if (!birthdayStr) return null;
+  const parts = String(birthdayStr).split("-");
+  let month, day, year = null;
+  if (parts.length === 3) {
+    year = parseInt(parts[0], 10);
+    month = parseInt(parts[1], 10);
+    day = parseInt(parts[2], 10);
+  } else if (parts.length === 2) {
+    month = parseInt(parts[0], 10);
+    day = parseInt(parts[1], 10);
+  } else {
+    return null;
+  }
+
+  if (isNaN(month) || isNaN(day) || month < 1 || month > 12 || day < 1 || day > 31) {
+    return null;
+  }
+
+  const now = new Date();
+  const currentYear = now.getFullYear();
+  let nextBday = new Date(currentYear, month - 1, day);
+
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  if (nextBday < today) {
+    nextBday = new Date(currentYear + 1, month - 1, day);
+  }
+
+  const diffMs = nextBday.getTime() - today.getTime();
+  const daysRemaining = Math.round(diffMs / (1000 * 60 * 60 * 24));
+
+  if (daysRemaining > 30) {
+    return null;
+  }
+
+  return {
+    daysRemaining,
+    isToday: daysRemaining === 0,
+    turningAge: year ? nextBday.getFullYear() - year : null,
+    formattedDate: nextBday.toLocaleDateString("en-US", { month: "short", day: "numeric" }),
+  };
+}
+
+// GET /api/friends/upcoming/birthdays - List friends with birthdays within next 30 days
+router.get("/upcoming/birthdays", async (req, res) => {
+  try {
+    const friends = await db
+      .collection("friends")
+      .find({
+        isArchived: { $ne: true },
+        birthday: { $exists: true, $ne: "" },
+      })
+      .toArray();
+
+    const upcoming = [];
+    for (const friend of friends) {
+      const details = getBirthdayDetails(friend.birthday);
+      if (details) {
+        upcoming.push({
+          id: friend.id,
+          name: friend.name,
+          picture: friend.picture,
+          birthday: friend.birthday,
+          ...details,
+        });
+      }
+    }
+
+    upcoming.sort((a, b) => a.daysRemaining - b.daysRemaining);
+    res.json(upcoming);
+  } catch (error) {
+    console.error("Error fetching upcoming birthdays:", error);
+    res.status(500).json({ error: "Failed to fetch upcoming birthdays" });
+  }
+});
+
 // GET /api/friends/:id - Get single friend by ID
 router.get("/:id", async (req, res) => {
   try {
@@ -113,7 +190,7 @@ router.get("/:id", async (req, res) => {
 // POST /api/friends - Create a new friend
 router.post("/", async (req, res) => {
   try {
-    const { name, email, phone, picture, bio, goal, tags } = req.body;
+    const { name, email, phone, picture, bio, goal, tags, birthday } = req.body;
 
     const validation = validateFriendInput(req.body, false);
     if (!validation.isValid) {
@@ -156,6 +233,7 @@ router.post("/", async (req, res) => {
       status: "On Track",
       tags: parsedTags,
       bio: (bio || "").trim(),
+      birthday: birthday ? String(birthday).trim() : "",
       goal: goalNum,
       next_due_date: nextDueDate,
       isArchived: false,
@@ -192,7 +270,7 @@ router.put("/:id", async (req, res) => {
       return res.status(400).json({ error: validation.errors[0], errors: validation.errors });
     }
 
-    const { name, email, phone, picture, bio, goal, tags, days_since_contact, isFavorite } = req.body;
+    const { name, email, phone, picture, bio, goal, tags, days_since_contact, isFavorite, birthday } = req.body;
     const updateFields = { updatedAt: new Date() };
 
     if (name !== undefined) updateFields.name = name.trim();
@@ -200,6 +278,7 @@ router.put("/:id", async (req, res) => {
     if (phone !== undefined) updateFields.phone = phone.trim();
     if (picture !== undefined) updateFields.picture = picture;
     if (bio !== undefined) updateFields.bio = bio;
+    if (birthday !== undefined) updateFields.birthday = String(birthday).trim();
     if (isFavorite !== undefined) updateFields.isFavorite = Boolean(isFavorite);
     if (days_since_contact !== undefined) updateFields.days_since_contact = Number(days_since_contact);
 
