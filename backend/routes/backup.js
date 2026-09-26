@@ -31,4 +31,69 @@ router.get("/export", async (req, res) => {
   }
 });
 
+// POST /api/backup/import - Restore friends and activities from JSON backup
+router.post("/import", async (req, res) => {
+  try {
+    const { friends, activities, mode } = req.body;
+
+    if (!Array.isArray(friends) && !Array.isArray(activities)) {
+      return res.status(400).json({ error: "Invalid backup format: missing friends or activities array." });
+    }
+
+    let importedFriends = 0;
+    let importedActivities = 0;
+
+    // If mode is 'replace', clear existing data
+    if (mode === "replace") {
+      await db.collection("friends").deleteMany({});
+      await db.collection("activities").deleteMany({});
+    }
+
+    if (Array.isArray(friends) && friends.length > 0) {
+      for (const friend of friends) {
+        const { _id, ...friendData } = friend;
+        if (!friendData.name) continue;
+
+        if (friendData.id) {
+          await db.collection("friends").updateOne(
+            { id: friendData.id },
+            { $set: { ...friendData, updatedAt: new Date() } },
+            { upsert: true }
+          );
+        } else {
+          await db.collection("friends").insertOne({ ...friendData, createdAt: new Date() });
+        }
+        importedFriends++;
+      }
+    }
+
+    if (Array.isArray(activities) && activities.length > 0) {
+      for (const act of activities) {
+        const { _id, ...actData } = act;
+        if (!actData.type) continue;
+
+        if (actData.id) {
+          await db.collection("activities").updateOne(
+            { id: actData.id },
+            { $set: { ...actData } },
+            { upsert: true }
+          );
+        } else {
+          await db.collection("activities").insertOne({ ...actData, createdAt: new Date() });
+        }
+        importedActivities++;
+      }
+    }
+
+    res.json({
+      message: "Data backup restored successfully",
+      importedFriends,
+      importedActivities,
+    });
+  } catch (error) {
+    console.error("Error importing backup:", error);
+    res.status(500).json({ error: "Failed to restore backup data" });
+  }
+});
+
 export default router;
