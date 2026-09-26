@@ -1,8 +1,8 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import {
   RiHome2Line,
   RiTimeLine,
@@ -10,13 +10,49 @@ import {
   RiMenuLine,
   RiCloseLine,
   RiUserAddLine,
+  RiKeyboardLine,
 } from 'react-icons/ri';
 import AddFriendModal from './AddFriendModal';
+import ShortcutsModal from './ShortcutsModal';
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isShortcutsOpen, setIsShortcutsOpen] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      // Don't trigger when inside inputs, textareas, or with modifier keys
+      if (
+        ['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName) ||
+        e.target.isContentEditable ||
+        e.ctrlKey ||
+        e.metaKey ||
+        e.altKey
+      ) {
+        return;
+      }
+
+      if (e.key === '?' || (e.shiftKey && e.key === '/')) {
+        e.preventDefault();
+        setIsShortcutsOpen((prev) => !prev);
+      } else if (e.key === 'n' || e.key === 'N') {
+        e.preventDefault();
+        setIsAddModalOpen(true);
+      } else if (e.key === 'h' || e.key === 'H') {
+        router.push('/');
+      } else if (e.key === 't' || e.key === 'T') {
+        router.push('/timeline');
+      } else if (e.key === 's' || e.key === 'S') {
+        router.push('/stats');
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [router]);
 
   const navLinks = [
     { name: 'Shelf', path: '/', icon: RiHome2Line },
@@ -82,8 +118,8 @@ const NavBar = () => {
               })}
             </ul>
 
-            {/* QUICK ACTION BUTTON */}
-            <div className="pt-2 md:pt-0 md:pl-2 border-t md:border-t-0 md:border-l border-gray-200 flex items-center">
+            {/* QUICK ACTION BUTTONS */}
+            <div className="pt-2 md:pt-0 md:pl-2 border-t md:border-t-0 md:border-l border-gray-200 flex items-center gap-2">
               <button
                 onClick={() => {
                   setIsOpen(false);
@@ -94,12 +130,22 @@ const NavBar = () => {
                 <RiUserAddLine className="text-sm" />
                 Add Friend
               </button>
+
+              <button
+                onClick={() => setIsShortcutsOpen(true)}
+                className="p-2 text-gray-500 hover:text-[#244D3F] hover:bg-gray-100 rounded-xl transition hidden sm:inline-flex cursor-pointer"
+                title="Keyboard Shortcuts (?)"
+                aria-label="Keyboard Shortcuts"
+              >
+                <RiKeyboardLine className="text-lg" />
+              </button>
             </div>
           </div>
         </nav>
       </header>
 
       <AddFriendModal isOpen={isAddModalOpen} onClose={() => setIsAddModalOpen(false)} />
+      <ShortcutsModal isOpen={isShortcutsOpen} onClose={() => setIsShortcutsOpen(false)} />
     </>
   );
 };
