@@ -24,7 +24,7 @@ function calculateStatus(daysSinceContact, goal, snoozedUntil) {
 // GET /api/friends - List all friends with optional search, filtering, and sorting
 router.get("/", async (req, res) => {
   try {
-    const { search, status, tag, sort, archived } = req.query;
+    const { search, status, tag, sort, archived, favorites, favorite } = req.query;
     const query = {};
 
     // Filter by archived status
@@ -32,6 +32,11 @@ router.get("/", async (req, res) => {
       query.isArchived = true;
     } else {
       query.isArchived = { $ne: true };
+    }
+
+    // Filter by favorites / pinned
+    if (favorites === "true" || favorite === "true") {
+      query.isFavorite = true;
     }
 
     // Search by name, email, or bio
@@ -50,7 +55,7 @@ router.get("/", async (req, res) => {
       query.status = status;
     }
 
-    let sortQuery = { id: 1 };
+    let sortQuery = { isFavorite: -1, id: 1 };
     if (sort === "name-asc") {
       sortQuery = { name: 1 };
     } else if (sort === "name-desc") {
@@ -154,6 +159,7 @@ router.post("/", async (req, res) => {
       goal: goalNum,
       next_due_date: nextDueDate,
       isArchived: false,
+      isFavorite: Boolean(req.body.isFavorite || false),
       snoozedUntil: null,
       notes: [],
       createdAt: new Date(),
@@ -186,7 +192,7 @@ router.put("/:id", async (req, res) => {
       return res.status(400).json({ error: validation.errors[0], errors: validation.errors });
     }
 
-    const { name, email, phone, picture, bio, goal, tags, days_since_contact } = req.body;
+    const { name, email, phone, picture, bio, goal, tags, days_since_contact, isFavorite } = req.body;
     const updateFields = { updatedAt: new Date() };
 
     if (name !== undefined) updateFields.name = name.trim();
@@ -194,6 +200,7 @@ router.put("/:id", async (req, res) => {
     if (phone !== undefined) updateFields.phone = phone.trim();
     if (picture !== undefined) updateFields.picture = picture;
     if (bio !== undefined) updateFields.bio = bio;
+    if (isFavorite !== undefined) updateFields.isFavorite = Boolean(isFavorite);
     if (days_since_contact !== undefined) updateFields.days_since_contact = Number(days_since_contact);
 
     if (goal !== undefined) {
@@ -341,6 +348,29 @@ router.patch("/:id/archive", async (req, res) => {
   } catch (error) {
     console.error("Error archiving friend:", error);
     res.status(500).json({ error: "Failed to update archive status" });
+  }
+});
+
+// PATCH /api/friends/:id/favorite - Toggle or set favorite/pin status
+router.patch("/:id/favorite", async (req, res) => {
+  try {
+    const idParam = req.params.id;
+    const query = !isNaN(idParam) ? { id: parseInt(idParam, 10) } : { _id: new ObjectId(idParam) };
+
+    const friend = await db.collection("friends").findOne(query);
+    if (!friend) return res.status(404).json({ error: "Friend not found" });
+
+    const newFavorite = req.body.isFavorite !== undefined ? Boolean(req.body.isFavorite) : !friend.isFavorite;
+
+    await db.collection("friends").updateOne(query, {
+      $set: { isFavorite: newFavorite, updatedAt: new Date() },
+    });
+
+    const updated = await db.collection("friends").findOne(query);
+    res.json(updated);
+  } catch (error) {
+    console.error("Error updating favorite status:", error);
+    res.status(500).json({ error: "Failed to update favorite status" });
   }
 });
 
