@@ -10,6 +10,7 @@ export async function fetchFriends(filters = {}) {
   if (filters.tag && filters.tag !== "All") queryParams.set("tag", filters.tag);
   if (filters.sort) queryParams.set("sort", filters.sort);
   if (filters.archived) queryParams.set("archived", "true");
+  if (filters.favorites) queryParams.set("favorites", "true");
 
   try {
     const res = await fetch(`${API_BASE}/api/friends?${queryParams.toString()}`, {
@@ -26,6 +27,9 @@ export async function fetchFriends(filters = {}) {
       let data = await res.json();
 
       // Apply client-side filtering if backend fallback
+      if (filters.favorites) {
+        data = data.filter((f) => f.isFavorite === true);
+      }
       if (filters.search) {
         const s = filters.search.toLowerCase();
         data = data.filter(
@@ -154,6 +158,19 @@ export async function archiveFriend(id, isArchived) {
     body: JSON.stringify({ isArchived }),
   });
   if (!res.ok) throw new Error("Failed to update archive status");
+  return await res.json();
+}
+
+/**
+ * Toggle or set favorite/pinned status for a friend
+ */
+export async function toggleFavoriteFriend(id, isFavorite) {
+  const res = await fetch(`${API_BASE}/api/friends/${id}/favorite`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ isFavorite }),
+  });
+  if (!res.ok) throw new Error("Failed to update favorite status");
   return await res.json();
 }
 
