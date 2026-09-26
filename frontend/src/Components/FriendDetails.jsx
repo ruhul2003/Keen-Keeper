@@ -7,8 +7,18 @@ import {
   archiveFriend,
   addFriendNote,
   deleteFriendNote,
+  toggleFavoriteFriend,
 } from '../lib/api';
-import { RiAlarmSnoozeLine, RiArrowLeftLine, RiEdit2Line, RiStickyNoteLine, RiZzzLine } from 'react-icons/ri';
+import {
+  RiAlarmSnoozeLine,
+  RiArrowLeftLine,
+  RiEdit2Line,
+  RiStickyNoteLine,
+  RiZzzLine,
+  RiStarFill,
+  RiStarLine,
+  RiCake2Line,
+} from 'react-icons/ri';
 import { FaBoxArchive } from 'react-icons/fa6';
 import { FaTrashAlt } from 'react-icons/fa';
 import { PiPhoneCallBold } from 'react-icons/pi';
@@ -80,6 +90,21 @@ const FriendDetails = () => {
       }
     } catch {
       toast.error('Failed to update archive status');
+    }
+  };
+
+  const handleToggleFavorite = async () => {
+    if (!friend) return;
+    try {
+      const newFav = !friend.isFavorite;
+      const updated = await toggleFavoriteFriend(friend.id, newFav);
+      setFriend((prev) => ({ ...prev, isFavorite: updated.isFavorite }));
+      toast.success(newFav ? 'Pinned to Favorites ⭐' : 'Removed from Favorites');
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new Event('keen_keeper_updated'));
+      }
+    } catch {
+      toast.error('Failed to update favorite status');
     }
   };
 
@@ -192,6 +217,19 @@ const FriendDetails = () => {
         {/* LEFT COLUMN: PROFILE CARD */}
         <div className="flex flex-col w-full lg:w-[320px] shrink-0">
           <div className="bg-white border border-gray-100 w-full p-6 rounded-2xl text-center shadow-xs flex flex-col relative">
+            {/* FAVORITE TOGGLE */}
+            <button
+              onClick={handleToggleFavorite}
+              className={`absolute top-4 left-4 p-2 rounded-lg transition ${
+                friend.isFavorite
+                  ? 'text-amber-500 bg-amber-50 hover:bg-amber-100 ring-1 ring-amber-200'
+                  : 'text-gray-400 hover:text-amber-500 hover:bg-gray-100'
+              }`}
+              title={friend.isFavorite ? 'Pinned to Favorites' : 'Add to Favorites'}
+            >
+              {friend.isFavorite ? <RiStarFill className="text-lg" /> : <RiStarLine className="text-lg" />}
+            </button>
+
             <button
               onClick={() => setIsEditOpen(true)}
               className="absolute top-4 right-4 p-2 text-gray-400 hover:text-[#244D3F] hover:bg-gray-100 rounded-lg transition"
@@ -212,7 +250,7 @@ const FriendDetails = () => {
 
             <h1 className="text-2xl font-bold text-gray-900 mt-4">{friend.name}</h1>
 
-            <div className="my-2.5">
+            <div className="my-2.5 flex items-center justify-center gap-2">
               <span
                 className={`text-xs font-semibold px-3 py-1 rounded-full ${
                   statusStyles[friend.status] || 'bg-gray-400 text-white'
@@ -220,7 +258,23 @@ const FriendDetails = () => {
               >
                 {friend.status}
               </span>
+
+              {friend.isFavorite && (
+                <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 border border-amber-200 flex items-center gap-1">
+                  <RiStarFill className="text-amber-500 text-xs" /> Favorite
+                </span>
+              )}
             </div>
+
+            {/* BIRTHDAY BADGE */}
+            {friend.birthday && (
+              <div className="mb-2.5">
+                <span className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-xs font-semibold bg-purple-50 text-purple-700 border border-purple-200/70">
+                  <RiCake2Line className="text-purple-600 text-sm" />
+                  Birthday: {friend.birthday}
+                </span>
+              </div>
+            )}
 
             <div className="flex flex-wrap justify-center gap-1.5 mb-3">
               {(friend.tags || []).map((tag, index) => (
