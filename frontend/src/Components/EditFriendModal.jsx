@@ -10,6 +10,7 @@ const EditFriendModal = ({ isOpen, onClose, friend, onFriendUpdated }) => {
     name: '',
     email: '',
     phone: '',
+    birthday: '',
     bio: '',
     goal: 14,
     picture: '',
@@ -24,6 +25,7 @@ const EditFriendModal = ({ isOpen, onClose, friend, onFriendUpdated }) => {
         name: friend.name || '',
         email: friend.email || '',
         phone: friend.phone || '',
+        birthday: friend.birthday || '',
         bio: friend.bio || '',
         goal: friend.goal || 14,
         picture: friend.picture || '',
@@ -111,7 +113,7 @@ const EditFriendModal = ({ isOpen, onClose, friend, onFriendUpdated }) => {
             />
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div>
               <label className="block text-xs font-semibold text-gray-700 uppercase tracking-wide mb-1">
                 Email
@@ -131,6 +133,17 @@ const EditFriendModal = ({ isOpen, onClose, friend, onFriendUpdated }) => {
                 type="tel"
                 value={formData.phone}
                 onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                className="w-full px-3.5 py-2 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#244D3F] focus:outline-none"
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-semibold text-gray-700 uppercase tracking-wide mb-1">
+                Birthday
+              </label>
+              <input
+                type="date"
+                value={formData.birthday || ''}
+                onChange={(e) => setFormData({ ...formData, birthday: e.target.value })}
                 className="w-full px-3.5 py-2 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#244D3F] focus:outline-none"
               />
             </div>

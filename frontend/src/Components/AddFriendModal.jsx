@@ -20,6 +20,7 @@ const AddFriendModal = ({ isOpen, onClose }) => {
     name: '',
     email: '',
     phone: '',
+    birthday: '',
     picture: DEFAULT_AVATARS[0],
     bio: '',
     goal: 14,
@@ -114,8 +115,8 @@ const AddFriendModal = ({ isOpen, onClose }) => {
             />
           </div>
 
-          {/* EMAIL & PHONE */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          {/* EMAIL & PHONE & BIRTHDAY */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div>
               <label className="block text-xs font-semibold text-gray-700 uppercase tracking-wide mb-1">
                 Email Address
@@ -137,6 +138,17 @@ const AddFriendModal = ({ isOpen, onClose }) => {
                 placeholder="+1 (555) 012-3456"
                 value={formData.phone}
                 onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                className="w-full px-3.5 py-2 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#244D3F] focus:outline-none"
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-semibold text-gray-700 uppercase tracking-wide mb-1">
+                Birthday
+              </label>
+              <input
+                type="date"
+                value={formData.birthday || ''}
+                onChange={(e) => setFormData({ ...formData, birthday: e.target.value })}
                 className="w-full px-3.5 py-2 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#244D3F] focus:outline-none"
               />
             </div>
