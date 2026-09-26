@@ -1,6 +1,6 @@
 # 🔐 KeenKeeper — Backend API
 
-Express.js server with Node.js, MongoDB Atlas database integration (`Keen-Keeper`), Better Auth authentication, and complete REST APIs for relationship tracking.
+Express.js server with Node.js, MongoDB Atlas database integration (`Keen-Keeper`), Better Auth authentication, input validation, and complete REST APIs for relationship tracking.
 
 ## 🛠️ Tech Stack
 - **Server Framework**: Express.js
@@ -38,26 +38,37 @@ npm run dev
 ```
 The server will start listening at [http://localhost:5000](http://localhost:5000).
 
-## 📡 API Endpoints
+### 5. Automated API Test Suite
+Verify backend functionality and endpoints:
+```bash
+node scripts/test-api.js
+```
+
+---
+
+## 📡 API Endpoints Reference
 
 ### Friends
-- `GET /api/friends`: List friends with search, tag, status, and sort filters
-- `GET /api/friends/:id`: Get friend by ID
-- `POST /api/friends`: Create a new friend
+- `GET /api/friends`: List friends with search, tag, status, favorites, and sort filters
+- `GET /api/friends/upcoming/birthdays`: List friends with upcoming birthdays within next 30 days
+- `GET /api/friends/:id`: Get friend details by ID
+- `POST /api/friends`: Create a new friend (with validation and sanitization)
 - `PUT /api/friends/:id`: Update friend details
-- `DELETE /api/friends/:id`: Delete friend and activities
-- `PATCH /api/friends/:id/snooze`: Snooze reminders
-- `PATCH /api/friends/:id/unsnooze`: Clear snooze
-- `PATCH /api/friends/:id/archive`: Archive or unarchive
+- `DELETE /api/friends/:id`: Delete friend and cleanup associated activities
+- `PATCH /api/friends/:id/favorite`: Toggle or set favorite pinned status
+- `PATCH /api/friends/:id/snooze`: Snooze reminders for designated day count
+- `PATCH /api/friends/:id/unsnooze`: Clear snooze state
+- `PATCH /api/friends/:id/archive`: Toggle or set archive status
 - `PATCH /api/friends/:id/goal`: Update contact goal cadence
-- `POST /api/friends/:id/notes`: Add memory note
-- `DELETE /api/friends/:id/notes/:noteId`: Remove note
+- `POST /api/friends/:id/notes`: Add memory note or talking point
+- `DELETE /api/friends/:id/notes/:noteId`: Remove a memory note
 
 ### Activities & Timeline
-- `GET /api/activities`: Fetch timeline interactions
-- `POST /api/activities`: Log new interaction touchpoint
-- `DELETE /api/activities/:id`: Delete interaction
+- `GET /api/activities`: Fetch timeline interactions with search, type, and sentiment filtering
+- `POST /api/activities`: Log new interaction touchpoint (duration, location, mood, notes)
+- `DELETE /api/activities/:id`: Delete interaction record
 
-### Analytics & Backup
-- `GET /api/analytics/summary`: Comprehensive friendship health score and metrics
-- `GET /api/backup/export`: JSON data backup download
+### Analytics & Data Backup
+- `GET /api/analytics/summary`: Comprehensive friendship health score, channel breakdowns, and trends
+- `GET /api/backup/export`: Download full database backup as structured JSON
+- `POST /api/backup/import`: Restore or merge shelf connections from a JSON backup
