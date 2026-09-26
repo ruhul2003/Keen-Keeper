@@ -5,7 +5,15 @@ import { fetchActivities, deleteActivity } from '../lib/api';
 import { PiPhoneCallBold } from 'react-icons/pi';
 import { MdOutlineSms } from 'react-icons/md';
 import { IoVideocamOutline } from 'react-icons/io5';
-import { RiCupLine, RiGiftLine, RiSearchLine, RiDeleteBin6Line, RiTimeLine } from 'react-icons/ri';
+import {
+  RiCupLine,
+  RiGiftLine,
+  RiSearchLine,
+  RiDeleteBin6Line,
+  RiTimeLine,
+  RiMapPinLine,
+  RiTimeFill,
+} from 'react-icons/ri';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -150,6 +158,32 @@ const Timeline = () => {
                     <p className="text-sm text-gray-600 mt-1 bg-gray-50/80 p-2.5 rounded-lg border border-gray-100">
                       "{item.notes}"
                     </p>
+                  )}
+
+                  {/* METADATA CHIPS (DURATION, LOCATION, SENTIMENT) */}
+                  {(item.duration || item.location || item.sentiment) && (
+                    <div className="flex flex-wrap items-center gap-1.5 mt-2">
+                      {item.duration && (
+                        <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200/60">
+                          <RiTimeFill className="text-xs text-emerald-600" />
+                          {item.duration} mins
+                        </span>
+                      )}
+                      {item.location && (
+                        <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-gray-700 bg-gray-100 px-2 py-0.5 rounded-md">
+                          <RiMapPinLine className="text-xs text-gray-500" />
+                          {item.location}
+                        </span>
+                      )}
+                      {item.sentiment && (
+                        <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-purple-800 bg-purple-50 px-2 py-0.5 rounded-md border border-purple-200/60">
+                          <span>
+                            {item.sentiment === 'Great' ? '😍' : item.sentiment === 'Good' ? '😊' : item.sentiment === 'Neutral' ? '😐' : '🫂'}
+                          </span>
+                          {item.sentiment}
+                        </span>
+                      )}
+                    </div>
                   )}
 
                   <p className="text-xs text-gray-400 mt-2 font-medium">
