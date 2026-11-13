@@ -95,6 +95,10 @@ router.get("/summary", async (req, res) => {
         ? Math.round(((onTrack + almostDue * 0.5) / totalFriends) * 100)
         : 100;
 
+    /**
+     * Compute 6-month touchpoint momentum trends.
+     * Aggregates activity counts into chronological monthly buckets.
+     */
     // Monthly trends (past 6 months)
     const monthlyTrends = [];
     for (let i = 5; i >= 0; i--) {
