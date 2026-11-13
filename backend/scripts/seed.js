@@ -274,6 +274,7 @@ async function seed() {
   console.log(`✅ Seeded ${initialActivities.length} activities into 'activities' collection.`);
 
   console.log("🎉 Seeding completed successfully!");
+  console.log(`   Total collections synced: ${initialFriends.length} friends, ${initialActivities.length} activities.`);
   await client.close();
   process.exit(0);
 }
