@@ -72,3 +72,20 @@ node scripts/test-api.js
 - `GET /api/analytics/summary`: Comprehensive friendship health score, channel breakdowns, and trends
 - `GET /api/backup/export`: Download full database backup as structured JSON
 - `POST /api/backup/import`: Restore or merge shelf connections from a JSON backup
+
+### Quick cURL API Verification Examples
+
+Check server health:
+```bash
+curl http://localhost:5000/api/health
+```
+
+List all active friends:
+```bash
+curl http://localhost:5000/api/friends
+```
+
+Fetch upcoming birthdays:
+```bash
+curl http://localhost:5000/api/friends/upcoming/birthdays
+```
