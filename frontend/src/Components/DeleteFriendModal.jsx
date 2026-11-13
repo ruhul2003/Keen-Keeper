@@ -7,6 +7,10 @@ import { toast } from 'react-toastify';
 import { FaTrashAlt } from 'react-icons/fa';
 import { RiAlertLine, RiCloseLine } from 'react-icons/ri';
 
+/**
+ * Modal dialog for confirming friend removal.
+ * Note: Deletion also cleans up associated timeline activities.
+ */
 const DeleteFriendModal = ({ isOpen, onClose, friend }) => {
   const [deleting, setDeleting] = useState(false);
   const router = useRouter();
