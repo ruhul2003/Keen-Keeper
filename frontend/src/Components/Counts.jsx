@@ -4,6 +4,10 @@ import React, { useEffect, useState } from 'react';
 import { fetchAnalyticsSummary, fetchFriends } from '../lib/api';
 import { RiUserHeartLine, RiCheckboxCircleLine, RiAlertLine, RiChatVoiceLine } from 'react-icons/ri';
 
+/**
+ * Summary metrics cards displaying relationship health counts:
+ * Total friends, on-track connections, friends needing attention, and monthly touchpoints.
+ */
 const Counts = () => {
   const [stats, setStats] = useState({
     totalFriends: 0,
