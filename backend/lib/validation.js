@@ -60,3 +60,29 @@ export function validateFriendInput(data, isUpdate = false) {
     errors,
   };
 }
+
+/**
+ * Validates activity touchpoint input payload.
+ * @param {object} data - Activity payload to validate.
+ * @returns {{isValid: boolean, errors: string[]}} Validation result object.
+ */
+export function validateActivityInput(data) {
+  const errors = [];
+  if (!data || typeof data !== "object") {
+    errors.push("Activity payload must be a valid object.");
+    return { isValid: false, errors };
+  }
+  if (!data.type || !String(data.type).trim()) {
+    errors.push("Activity type is required.");
+  }
+  if (data.duration !== undefined && data.duration !== null && data.duration !== "") {
+    const dur = Number(data.duration);
+    if (isNaN(dur) || dur < 0) {
+      errors.push("Duration must be a positive number.");
+    }
+  }
+  return {
+    isValid: errors.length === 0,
+    errors,
+  };
+}
