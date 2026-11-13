@@ -48,7 +48,7 @@ const Footer = () => {
                         © {new Date().getFullYear()} KeenKeeper. Nurturing intentional friendships.
                     </p>
 
-                    <ul className='flex flex-wrap justify-center md:justify-end gap-4 sm:gap-6 text-gray-300 text-xs sm:text-sm'>
+                    <ul aria-label='Legal and navigation links' className='flex flex-wrap justify-center md:justify-end gap-4 sm:gap-6 text-gray-300 text-xs sm:text-sm'>
                         <li className='cursor-pointer hover:underline'>Privacy Policy</li>
                         <li className='cursor-pointer hover:underline'>Terms of Service</li>
                         <li className='cursor-pointer hover:underline'>Security</li>
