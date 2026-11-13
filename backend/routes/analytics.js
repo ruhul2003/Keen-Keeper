@@ -19,6 +19,10 @@ router.get("/summary", async (req, res) => {
 
     const overdueList = [];
 
+    // Calculate average days since contact across all active relationships
+    const totalDaysSinceContact = nonArchivedFriends.reduce((acc, f) => acc + (Number(f.days_since_contact) || 0), 0);
+    const averageDaysSinceContact = totalFriends > 0 ? Math.round(totalDaysSinceContact / totalFriends) : 0;
+
     for (const friend of nonArchivedFriends) {
       if (friend.snoozedUntil && new Date(friend.snoozedUntil) > new Date()) {
         snoozed++;
@@ -119,6 +123,7 @@ router.get("/summary", async (req, res) => {
       totalActivities,
       activityBreakdown,
       healthScore,
+        averageDaysSinceContact,
       overdueList: overdueList.slice(0, 5),
       monthlyTrends,
     });
