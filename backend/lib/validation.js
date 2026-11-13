@@ -2,11 +2,21 @@
  * Input validation and sanitization utilities for Keen-Keeper
  */
 
+/**
+ * Trims leading and trailing whitespace from string input.
+ * @param {*} val - The input value to sanitize.
+ * @returns {string} Sanitized string or empty string if not a string.
+ */
 export function sanitizeString(val) {
   if (typeof val !== "string") return "";
   return val.trim();
 }
 
+/**
+ * Validates whether string is a well-formed email address.
+ * @param {string} [email] - Optional email address to validate.
+ * @returns {boolean} True if empty or valid email syntax.
+ */
 export function isValidEmail(email) {
   if (!email) return true; // email is optional
   const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
