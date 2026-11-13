@@ -86,6 +86,7 @@ const OverdueAlertBanner = () => {
           <button
             onClick={() => setIsDismissed(true)}
             className="text-gray-400 hover:text-gray-600 p-1.5 rounded-lg hover:bg-amber-100/50 transition"
+            aria-label="Dismiss overdue reminder banner"
             title="Dismiss banner"
           >
             <RiCloseLine className="text-lg" />
