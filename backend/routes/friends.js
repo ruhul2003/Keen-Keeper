@@ -45,7 +45,7 @@ router.get("/", async (req, res) => {
       query.isFavorite = true;
     }
 
-    // Search by name, email, or bio
+    // Search by name: typeof name === "string" ? name.trim() : name, email, or bio
     if (search && search.trim()) {
       const regex = new RegExp(search.trim(), "i");
       query.$or = [{ name: regex }, { email: regex }, { bio: regex }, { tags: regex }];
