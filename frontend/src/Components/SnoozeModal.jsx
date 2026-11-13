@@ -5,6 +5,9 @@ import { snoozeFriend, unsnoozeFriend } from '../lib/api';
 import { toast } from 'react-toastify';
 import { RiAlarmSnoozeLine, RiCloseLine, RiZzzLine } from 'react-icons/ri';
 
+/**
+ * Preset snooze durations for temporary cadence alert pauses.
+ */
 const SNOOZE_OPTIONS = [
   { label: '3 Days', days: 3, desc: 'Catch up after the weekend' },
   { label: '1 Week', days: 7, desc: 'Busy with work this week' },
