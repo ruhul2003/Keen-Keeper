@@ -6,7 +6,10 @@ dotenv.config();
 const uri = process.env.MONGODB_URI || "mongodb://localhost:27017/Keen-Keeper";
 const dbName = process.env.DB_NAME || "Keen-Keeper";
 
-export const client = new MongoClient(uri);
+// MongoDB client instance with standard connection options
+export const client = new MongoClient(uri, {
+  serverSelectionTimeoutMS: 5000,
+});
 
 export async function connectDB() {
   try {
