@@ -48,6 +48,10 @@ router.post("/", async (req, res) => {
   try {
     const { friendId, name, type, notes, time, date, duration, location, sentiment, rating } = req.body;
 
+    // Supported sentiment options
+    const VALID_SENTIMENTS = ["Great", "Good", "Neutral", "Challenging"];
+    const verifiedSentiment = sentiment && VALID_SENTIMENTS.includes(sentiment) ? sentiment : (sentiment || null);
+
     if (!type) {
       return res.status(400).json({ error: "Activity type is required" });
     }
