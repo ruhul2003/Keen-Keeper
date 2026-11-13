@@ -6,7 +6,11 @@
 const API_BASE = process.env.API_URL || "http://localhost:5000";
 
 async function runTests() {
-  console.log(`\n🧪 Starting Keen-Keeper API Test Suite against ${API_BASE}...\n`);
+  console.log(`\n======================================================`);
+  console.log(`🧪 Keen-Keeper API Test Suite`);
+  console.log(`🎯 Target: ${API_BASE}`);
+  console.log(`🕒 Started: ${new Date().toLocaleTimeString()}`);
+  console.log(`======================================================\n`);
   let passed = 0;
   let failed = 0;
 
