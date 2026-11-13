@@ -36,6 +36,7 @@ router.post("/import", async (req, res) => {
   try {
     const { friends, activities, mode } = req.body;
 
+    // Validate backup structure contains required array collections
     if (!Array.isArray(friends) && !Array.isArray(activities)) {
       return res.status(400).json({ error: "Invalid backup format: missing friends or activities array." });
     }
