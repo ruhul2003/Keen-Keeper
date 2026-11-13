@@ -54,7 +54,7 @@ app.get("/api/status", (req, res) => {
 async function startServer() {
   await connectDB();
   app.listen(PORT, () => {
-    console.log(`🚀 Backend server listening on http://localhost:${PORT}`);
+    console.log(`🚀 Backend server listening on port ${PORT}`);
     console.log(`🔐 Better Auth handling requests on http://localhost:${PORT}/api/auth/*`);
   });
 }
