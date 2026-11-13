@@ -333,7 +333,9 @@ export async function fetchAnalyticsSummary() {
 }
 
 /**
- * Fetch upcoming birthdays within 30 days
+ * Fetch upcoming birthdays within 30 days.
+ * Retrieves upcoming celebration alerts from backend or calculates fallback from friends cache.
+ * @returns {Promise<Array<object>>} List of sorted upcoming birthday profiles
  */
 export async function fetchUpcomingBirthdays() {
   try {
