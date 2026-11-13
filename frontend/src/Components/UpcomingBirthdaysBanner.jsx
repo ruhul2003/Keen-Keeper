@@ -87,6 +87,7 @@ const UpcomingBirthdaysBanner = () => {
 
           <Link
             href={`/friends/${nextPerson.id}`}
+            title={`Send birthday greetings to ${nextPerson.name}`}
             className="px-4 py-2 bg-purple-700 hover:bg-purple-800 text-white font-bold text-xs rounded-xl shadow-xs transition"
           >
             Wish {nextPerson.name.split(' ')[0]} →
