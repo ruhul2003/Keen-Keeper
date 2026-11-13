@@ -60,3 +60,9 @@ async function startServer() {
 }
 
 startServer();
+
+// Graceful shutdown handling
+process.on("SIGINT", () => {
+  console.log("\nGracefully terminating backend server...");
+  process.exit(0);
+});
