@@ -43,7 +43,10 @@ router.get("/", async (req, res) => {
   }
 });
 
-// POST /api/activities - Log a new interaction
+/**
+ * POST /api/activities - Log a new interaction
+ * Records touchpoint, updates friend last contact, increments count, and clears snoozed state.
+ */
 router.post("/", async (req, res) => {
   try {
     const { friendId, name, type, notes, time, date, duration, location, sentiment, rating } = req.body;
