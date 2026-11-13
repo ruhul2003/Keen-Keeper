@@ -5,7 +5,13 @@ import { validateFriendInput } from "../lib/validation.js";
 
 const router = express.Router();
 
-// Helper: Calculate friend status dynamically based on days_since_contact and goal
+/**
+ * Helper: Calculate friend status dynamically based on days_since_contact and goal.
+ * @param {number} daysSinceContact - Number of elapsed days since last contact.
+ * @param {number} goal - Relationship cadence target in days.
+ * @param {string|Date|null} [snoozedUntil] - Optional expiration date of snooze state.
+ * @returns {"Snoozed"|"overdue"|"Almost due"|"On Track"} Evaluated status.
+ */
 function calculateStatus(daysSinceContact, goal, snoozedUntil) {
   if (snoozedUntil && new Date(snoozedUntil) > new Date()) {
     return "Snoozed";
