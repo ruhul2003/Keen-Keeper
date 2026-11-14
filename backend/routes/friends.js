@@ -291,7 +291,7 @@ router.put("/:id", async (req, res) => {
     if (email !== undefined) updateFields.email = email.trim();
     if (phone !== undefined) updateFields.phone = phone.trim();
     if (picture !== undefined) updateFields.picture = picture;
-    if (bio !== undefined) updateFields.bio = bio;
+    if (bio !== undefined) updateFields.bio = typeof bio === "string" ? bio.trim() : bio;
     if (birthday !== undefined) updateFields.birthday = String(birthday).trim();
     if (isFavorite !== undefined) updateFields.isFavorite = Boolean(isFavorite);
     if (days_since_contact !== undefined) updateFields.days_since_contact = Number(days_since_contact);
