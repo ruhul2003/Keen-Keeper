@@ -240,6 +240,7 @@ const DataExportModal = ({ isOpen, onClose }) => {
             <>
               <div className="p-4 rounded-xl bg-purple-50/60 border border-purple-100 text-xs text-purple-900 space-y-2">
                 <p className="font-semibold">Upload a previously exported KeenKeeper JSON backup file:</p>
+                <p className="text-[11px] text-purple-700/80">Only valid .json backup archives up to 10MB are supported.</p>
                 <input
                   type="file"
                   accept=".json,application/json"
