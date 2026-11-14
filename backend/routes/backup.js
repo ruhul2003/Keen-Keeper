@@ -3,7 +3,10 @@ import { db } from "../lib/db.js";
 
 const router = express.Router();
 
-// GET /api/backup/export - Export all friends and timeline activities as structured JSON
+/**
+ * GET /api/backup/export - Export all friends and timeline activities as structured JSON.
+ * Produces a portable JSON archive of the KeenKeeper relationship shelf.
+ */
 router.get("/export", async (req, res) => {
   try {
     const friends = await db.collection("friends").find().toArray();
