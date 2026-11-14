@@ -25,6 +25,8 @@ const Banner = () => {
 
         <button
           onClick={() => setIsModalOpen(true)}
+          aria-label="Add a new friend to your relationship shelf"
+          title="Add a new friend"
           className="bg-[#244D3F] hover:bg-[#1a382e] flex items-center gap-2 text-white font-semibold px-6 py-3 rounded-xl mt-8 shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 cursor-pointer"
         >
           <FiPlus className="text-lg" /> Add Friend
