@@ -121,6 +121,7 @@ router.get("/summary", async (req, res) => {
 
     res.json({
       totalFriends,
+      activeRelationships: totalFriends,
       onTrack,
       almostDue,
       overdue,
