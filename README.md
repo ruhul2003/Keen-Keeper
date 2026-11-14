@@ -76,3 +76,11 @@ npm run dev   # starts Next.js app on port 3000
 ```
 
 Open [http://localhost:3000](http://localhost:3000) to view your relationship shelf!
+
+---
+
+## 🤝 Contributing Guidelines
+
+1. **Code Standards**: Maintain modern ES Modules syntax across backend and frontend code.
+2. **Commit Style**: Write clear, simple single-sentence commit messages in the imperative mood.
+3. **Validation**: Always validate and sanitize user inputs before writing records to MongoDB.
