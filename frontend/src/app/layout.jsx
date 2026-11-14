@@ -5,6 +5,8 @@ import Footer from '../Components/Footer';
 export const metadata = {
   title: 'KeenKeeper',
   description: 'Your personal shelf of meaningful connections.',
+  themeColor: '#244D3F',
+  viewport: 'width=device-width, initial-scale=1',
   icons: {
     icon: '/favicon.svg',
   },
