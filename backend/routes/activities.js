@@ -8,6 +8,7 @@ const router = express.Router();
 router.get("/", async (req, res) => {
   try {
     const { type, friendId, search, limit, sentiment } = req.query;
+    const cleanSearch = typeof search === "string" ? search.trim() : "";
     const query = {};
 
     if (type && type !== "All") {
@@ -23,8 +24,8 @@ router.get("/", async (req, res) => {
       query.friendId = !isNaN(parsedId) ? parsedId : friendId;
     }
 
-    if (search && search.trim()) {
-      const regex = new RegExp(search.trim(), "i");
+    if (cleanSearch) {
+      const regex = new RegExp(cleanSearch, "i");
       query.$or = [{ name: regex }, { notes: regex }, { type: regex }, { location: regex }];
     }
 
