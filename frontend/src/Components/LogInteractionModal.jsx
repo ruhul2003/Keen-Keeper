@@ -145,7 +145,7 @@ const LogInteractionModal = ({ isOpen, onClose, friend, initialType = 'Call', on
                 type="number"
                 min="1"
                 max="600"
-                placeholder="e.g. 30"
+                placeholder="e.g. 15, 30, 60 mins"
                 value={duration}
                 onChange={(e) => setDuration(e.target.value)}
                 className="w-full px-3.5 py-2 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#244D3F] focus:outline-none"
