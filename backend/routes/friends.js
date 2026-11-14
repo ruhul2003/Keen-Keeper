@@ -27,7 +27,15 @@ function calculateStatus(daysSinceContact, goal, snoozedUntil) {
   return "On Track";
 }
 
-// GET /api/friends - List all friends with optional search, filtering, and sorting
+/**
+ * GET /api/friends - List all friends with optional search, filtering, and sorting.
+ * Query Parameters:
+ * @query {string} [search] - Keyword query matching name, email, or bio.
+ * @query {string} [status] - Filter by status (On Track, Almost due, overdue, Snoozed).
+ * @query {string} [tag] - Filter by circle tag name.
+ * @query {string} [sort] - Sort order: name-asc, name-desc, goal, or default.
+ * @query {string} [favorites] - If "true", return only pinned favorite relationships.
+ */
 router.get("/", async (req, res) => {
   try {
     const { search, status, tag, sort, archived, favorites, favorite } = req.query;
