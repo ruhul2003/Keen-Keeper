@@ -205,6 +205,9 @@ const AddFriendModal = ({ isOpen, onClose }) => {
                 </button>
               ))}
             </div>
+            <p className="text-[11px] text-gray-400 mt-1">
+              Select how often you wish to check in or meet up with this friend.
+            </p>
           </div>
 
           {/* BIO */}
