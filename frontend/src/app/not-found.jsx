@@ -16,6 +16,7 @@ export default function NotFound() {
 
       <Link
         href="/"
+        aria-label="Return to KeenKeeper homepage"
         className="mt-8 px-6 py-3 rounded-full font-semibold bg-linear-to-r from-cyan-400 to-blue-500 text-black hover:scale-105 transition duration-300 shadow-lg"
       >
         Back to Home
