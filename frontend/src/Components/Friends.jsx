@@ -217,7 +217,7 @@ const Friends = () => {
                     ? 'text-amber-400 bg-amber-50 hover:bg-amber-100 ring-1 ring-amber-300'
                     : 'text-gray-300 hover:text-amber-400 hover:bg-gray-100'
                 }`}
-                title={friend.isFavorite ? 'Favorited / Pinned to Shelf' : 'Add to Favorites'}
+                title={friend.isFavorite ? 'Pinned to top of shelf (click to unpin)' : 'Pin friend to top of favorites'}
                 aria-label={friend.isFavorite ? 'Unfavorite friend' : 'Favorite friend'}
               >
                 {friend.isFavorite ? <RiStarFill className="text-base" /> : <RiStarLine className="text-base" />}
