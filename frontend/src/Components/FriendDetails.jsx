@@ -470,6 +470,7 @@ const FriendDetails = () => {
                     </div>
                     <button
                       onClick={() => handleDeleteNote(note.id)}
+                      aria-label="Delete this memory note"
                       className="text-gray-400 hover:text-red-500 text-xs p-1"
                       title="Delete note"
                     >
