@@ -133,8 +133,10 @@ const Timeline = () => {
         <div className="text-center py-16 bg-white rounded-2xl border border-dashed border-gray-200 mt-4">
           <RiTimeLine className="mx-auto text-4xl text-gray-300" />
           <h3 className="mt-2 text-base font-semibold text-gray-800">No {filter === 'All' ? '' : filter} Activity Found</h3>
-          <p className="text-xs text-gray-500 mt-1">
-            Log your first check-in with a friend to begin building your relationship history.
+          <p className="text-xs text-gray-500 mt-1 max-w-sm mx-auto">
+            {search
+              ? `No records found matching "${search}". Try clearing search or selecting a different filter.`
+              : 'Log your first check-in with a friend to begin building your relationship history.'}
           </p>
         </div>
       ) : (
