@@ -97,3 +97,14 @@ export function isValidPhone(phone) {
   const cleaned = String(phone).replace(/[\s\-\(\)\+]/g, "");
   return cleaned.length >= 7 && cleaned.length <= 15 && /^\d+$/.test(cleaned);
 }
+
+/**
+ * Validates if a date string conforms to YYYY-MM-DD or valid ISO date.
+ * @param {string} [dateStr] - Date string to test.
+ * @returns {boolean} True if valid date representation.
+ */
+export function isValidDateString(dateStr) {
+  if (!dateStr) return true;
+  const d = new Date(dateStr);
+  return !isNaN(d.getTime());
+}
