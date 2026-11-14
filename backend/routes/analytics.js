@@ -3,7 +3,10 @@ import { db } from "../lib/db.js";
 
 const router = express.Router();
 
-// GET /api/analytics/summary - Comprehensive stats and friendship health metrics
+/**
+ * GET /api/analytics/summary - Comprehensive stats and friendship health metrics.
+ * Aggregates cadence statuses, communication breakdown, health scores, and 6-month trends.
+ */
 router.get("/summary", async (req, res) => {
   try {
     const friendsCol = db.collection("friends");
