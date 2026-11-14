@@ -89,6 +89,7 @@ router.post("/import", async (req, res) => {
       }
     }
 
+    console.log(`[Backup Restore] Successfully imported ${importedFriends} friends and ${importedActivities} activities.`);
     res.json({
       message: "Data backup restored successfully",
       importedFriends,
