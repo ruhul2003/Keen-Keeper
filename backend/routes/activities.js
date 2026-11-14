@@ -4,6 +4,9 @@ import { ObjectId } from "mongodb";
 
 const router = express.Router();
 
+// Supported touchpoint categories: 'Call', 'Text', 'Video', 'Coffee', 'Gift'
+const SUPPORTED_ACTIVITY_TYPES = ['Call', 'Text', 'Video', 'Coffee', 'Gift'];
+
 // GET /api/activities - List all activities with optional filters
 router.get("/", async (req, res) => {
   try {
