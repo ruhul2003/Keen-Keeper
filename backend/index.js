@@ -31,6 +31,14 @@ app.all("/api/auth/*", toNodeHandler(auth));
 // Express JSON middleware for custom routes
 app.use(express.json());
 
+// Request logging middleware for debugging API requests
+app.use((req, res, next) => {
+  if (process.env.NODE_ENV !== "test") {
+    console.log(`[${new Date().toLocaleTimeString()}] ${req.method} ${req.originalUrl}`);
+  }
+  next();
+});
+
 // Routes
 app.use("/api/friends", friendsRouter);
 app.use("/api/activities", activitiesRouter);
