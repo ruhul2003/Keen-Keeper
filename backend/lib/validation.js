@@ -86,3 +86,14 @@ export function validateActivityInput(data) {
     errors,
   };
 }
+
+/**
+ * Validates phone number string format.
+ * @param {string} [phone] - Optional phone string.
+ * @returns {boolean} True if empty or valid phone.
+ */
+export function isValidPhone(phone) {
+  if (!phone) return true;
+  const cleaned = String(phone).replace(/[\s\-\(\)\+]/g, "");
+  return cleaned.length >= 7 && cleaned.length <= 15 && /^\d+$/.test(cleaned);
+}
