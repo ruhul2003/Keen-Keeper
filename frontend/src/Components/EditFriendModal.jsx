@@ -142,6 +142,7 @@ const EditFriendModal = ({ isOpen, onClose, friend, onFriendUpdated }) => {
               </label>
               <input
                 type="date"
+                placeholder="YYYY-MM-DD"
                 value={formData.birthday || ''}
                 onChange={(e) => setFormData({ ...formData, birthday: e.target.value })}
                 className="w-full px-3.5 py-2 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#244D3F] focus:outline-none"
