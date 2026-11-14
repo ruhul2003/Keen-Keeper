@@ -191,7 +191,7 @@ router.get("/:id", async (req, res) => {
 
     const friend = await db.collection("friends").findOne(query);
     if (!friend) {
-      return res.status(404).json({ error: "Friend not found" });
+      return res.status(404).json({ error: `Friend with id '${idParam}' was not found.` });
     }
 
     res.json(friend);
