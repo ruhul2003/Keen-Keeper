@@ -109,6 +109,7 @@ const Counts = () => {
         return (
           <div
             key={idx}
+            aria-label={`${card.label} metric card`}
             className="group flex flex-col justify-between bg-white border border-gray-100 p-6 rounded-xl shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200"
           >
             <div className="flex items-center justify-between">
