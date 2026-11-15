@@ -39,6 +39,7 @@ async function runTests() {
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
     if (!data.message || !data.message.includes("Keen-Keeper")) throw new Error("Unexpected status response");
+    if (!data.environment) throw new Error("Expected environment field in status response");
   });
 
   // 3. Friends listing & favorites filter test
