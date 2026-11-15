@@ -211,6 +211,9 @@ const Stats = () => {
               </div>
             )}
           </div>
+          <p className="text-[11px] text-gray-400 text-center mt-3">
+            Track communication methods across calls, texts, video chats, and hangouts.
+          </p>
         </div>
 
         {/* MONTHLY MOMENTUM BARS */}
