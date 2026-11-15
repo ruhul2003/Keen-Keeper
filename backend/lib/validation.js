@@ -35,6 +35,12 @@ export function validateFriendInput(data, isUpdate = false) {
     }
   }
 
+  if (data.picture !== undefined && data.picture !== "") {
+    if (!isValidUrl(data.picture)) {
+      errors.push("Invalid avatar picture URL format.");
+    }
+  }
+
   if (data.email !== undefined && data.email !== "") {
     if (!isValidEmail(data.email)) {
       errors.push("Invalid email address format.");
