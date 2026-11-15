@@ -109,7 +109,9 @@ export async function updateFriend(id, updateData) {
 }
 
 /**
- * Delete friend
+ * Delete friend from database and purge associated activity history.
+ * @param {string|number} id - The friend identifier.
+ * @returns {Promise<object>} Deletion confirmation response.
  */
 export async function deleteFriend(id) {
   try {
