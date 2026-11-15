@@ -174,7 +174,8 @@ const FriendDetails = () => {
       {/* BACK NAVIGATION */}
       <button
         onClick={() => router.push('/')}
-        className="flex items-center gap-1.5 text-sm font-semibold text-gray-600 hover:text-[#244D3F] mb-6 transition"
+        title="Return to main relationship shelf"
+        className="flex items-center gap-1.5 text-sm font-semibold text-gray-600 hover:text-[#244D3F] mb-6 transition cursor-pointer"
       >
         <RiArrowLeftLine className="text-lg" /> Back to Friends Shelf
       </button>
