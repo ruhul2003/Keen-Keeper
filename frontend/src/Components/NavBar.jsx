@@ -134,7 +134,7 @@ const NavBar = () => {
               <button
                 onClick={() => setIsShortcutsOpen(true)}
                 className="p-2 text-gray-500 hover:text-[#244D3F] hover:bg-gray-100 rounded-xl transition hidden sm:inline-flex cursor-pointer"
-                title="Keyboard Shortcuts (?)"
+                title="View Keyboard Navigation Shortcuts (Press ?)"
                 aria-label="Keyboard Shortcuts"
               >
                 <RiKeyboardLine className="text-lg" />
