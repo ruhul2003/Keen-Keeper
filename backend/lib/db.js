@@ -11,6 +11,10 @@ export const client = new MongoClient(uri, {
   serverSelectionTimeoutMS: 5000,
 });
 
+/**
+ * Establishes connection to MongoDB database.
+ * @returns {Promise<import("mongodb").Db>} Connected MongoDB database instance.
+ */
 export async function connectDB() {
   try {
     await client.connect();
