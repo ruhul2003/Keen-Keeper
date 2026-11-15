@@ -53,7 +53,7 @@ router.get("/summary", async (req, res) => {
       }
     }
 
-    // Sort overdue friends by most urgent
+    // Priority Reconnection Radar: Sort overdue friends by most urgent days elapsed
     overdueList.sort((a, b) => b.overdueDays - a.overdueDays);
 
     // Calculate interactions this month
