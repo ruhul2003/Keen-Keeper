@@ -63,7 +63,7 @@ const NavBar = () => {
   return (
     <>
       <header className="sticky top-0 z-40 w-full bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-xs">
-        <nav className="flex w-full max-w-7xl mx-auto px-4 sm:px-8 py-3.5 items-center justify-between">
+        <nav aria-label="Main Navigation" className="flex w-full max-w-7xl mx-auto px-4 sm:px-8 py-3.5 items-center justify-between">
           {/* LOGO */}
           <Link href="/" className="flex items-center gap-2 group">
             <span className="w-8 h-8 rounded-lg bg-[#244D3F] text-white flex items-center justify-center font-black text-lg shadow-xs group-hover:scale-105 transition">
