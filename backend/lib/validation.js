@@ -108,3 +108,18 @@ export function isValidDateString(dateStr) {
   const d = new Date(dateStr);
   return !isNaN(d.getTime());
 }
+
+/**
+ * Validates whether string is a valid web URL.
+ * @param {string} [url] - URL string to check.
+ * @returns {boolean} True if empty or valid HTTP/HTTPS URL.
+ */
+export function isValidUrl(url) {
+  if (!url) return true;
+  try {
+    const parsed = new URL(url);
+    return parsed.protocol === "http:" || parsed.protocol === "https:";
+  } catch {
+    return false;
+  }
+}
