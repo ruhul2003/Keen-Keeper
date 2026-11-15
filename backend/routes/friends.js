@@ -201,7 +201,10 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// POST /api/friends - Create a new friend
+/**
+ * POST /api/friends - Create a new friend profile.
+ * Validates input, calculates cadence next_due_date, and persists to MongoDB.
+ */
 router.post("/", async (req, res) => {
   try {
     const { name, email, phone, picture, bio, goal, tags, birthday } = req.body;
