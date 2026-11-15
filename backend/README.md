@@ -66,7 +66,7 @@ node scripts/test-api.js
 ### Activities & Timeline
 - `GET /api/activities`: Fetch timeline interactions with search, type, and sentiment filtering
 - `POST /api/activities`: Log new interaction touchpoint (duration, location, mood, notes)
-- `DELETE /api/activities/:id`: Delete interaction record
+- `DELETE /api/activities/:id`: Delete interaction record from timeline and database
 
 ### Analytics & Data Backup
 - `GET /api/analytics/summary`: Comprehensive friendship health score, channel breakdowns, and trends
