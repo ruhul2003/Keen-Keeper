@@ -142,7 +142,7 @@ router.delete("/:id", async (req, res) => {
 
     const deleted = await db.collection("activities").deleteOne(query);
     if (deleted.deletedCount === 0) {
-      return res.status(404).json({ error: "Activity not found" });
+      return res.status(404).json({ error: `Activity with id '${idParam}' was not found.` });
     }
 
     res.json({ message: "Activity deleted successfully", id: idParam });
