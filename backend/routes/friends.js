@@ -269,7 +269,10 @@ router.post("/", async (req, res) => {
   }
 });
 
-// PUT /api/friends/:id - Update friend
+/**
+ * PUT /api/friends/:id - Update existing friend details.
+ * Sanitizes modified fields and recalculates status and due dates.
+ */
 router.put("/:id", async (req, res) => {
   try {
     const idParam = req.params.id;
