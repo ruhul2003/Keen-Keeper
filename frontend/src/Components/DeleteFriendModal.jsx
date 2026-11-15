@@ -38,14 +38,14 @@ const DeleteFriendModal = ({ isOpen, onClose, friend }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-fadeIn">
+    <div role="dialog" aria-modal="true" aria-labelledby="delete-friend-title" className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-fadeIn">
       <div className="bg-white w-full max-w-md rounded-2xl shadow-2xl overflow-hidden border border-gray-100">
         <div className="p-6">
           <div className="w-12 h-12 rounded-full bg-red-100 text-red-600 flex items-center justify-center mx-auto mb-4">
             <RiAlertLine className="text-2xl" />
           </div>
 
-          <h3 className="text-lg font-bold text-center text-gray-900">
+          <h3 id="delete-friend-title" className="text-lg font-bold text-center text-gray-900">
             Remove {friend.name}?
           </h3>
 
