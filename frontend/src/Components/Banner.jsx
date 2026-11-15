@@ -20,7 +20,7 @@ const Banner = () => {
 
         <p className="text-gray-600 text-sm sm:text-base max-w-2xl mt-4 leading-relaxed">
           Your personal shelf of meaningful connections. Browse, tend, and nurture the
-          relationships that matter most with intentional touchpoints.
+          relationships that matter most with intentional cadence goals and touchpoints.
         </p>
 
         <button
