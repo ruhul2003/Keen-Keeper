@@ -45,6 +45,15 @@ app.use("/api/activities", activitiesRouter);
 app.use("/api/analytics", analyticsRouter);
 app.use("/api/backup", backupRouter);
 
+// Root status route
+app.get("/", (req, res) => {
+  res.json({
+    app: "Keen-Keeper Backend API",
+    status: "online",
+    docs: "/api/health",
+  });
+});
+
 // Health Check Route
 app.get("/api/health", (req, res) => {
   res.json({ status: "OK", timestamp: new Date().toISOString() });
