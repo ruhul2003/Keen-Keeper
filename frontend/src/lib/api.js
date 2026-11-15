@@ -127,7 +127,10 @@ export async function deleteFriend(id) {
 }
 
 /**
- * Snooze friend reminders
+ * Snooze relationship cadence reminder alerts for a given duration.
+ * @param {string|number} id - Target friend ID.
+ * @param {number} [days=7] - Number of days to pause alerts.
+ * @returns {Promise<object>} Updated friend profile.
  */
 export async function snoozeFriend(id, days = 7) {
   const res = await fetch(`${API_BASE}/api/friends/${id}/snooze`, {
