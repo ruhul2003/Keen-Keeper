@@ -192,7 +192,8 @@ const FriendDetails = () => {
           </div>
           <button
             onClick={() => setIsSnoozeOpen(true)}
-            className="text-xs bg-white text-indigo-700 font-bold px-3 py-1.5 rounded-lg border border-indigo-200 hover:bg-indigo-100"
+            title="Adjust snooze duration or resume alerts"
+            className="text-xs bg-white text-indigo-700 font-bold px-3 py-1.5 rounded-lg border border-indigo-200 hover:bg-indigo-100 cursor-pointer"
           >
             Adjust Snooze
           </button>
