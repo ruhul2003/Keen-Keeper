@@ -123,7 +123,10 @@ router.post("/", async (req, res) => {
   }
 });
 
-// DELETE /api/activities/:id - Delete an interaction entry
+/**
+ * DELETE /api/activities/:id - Delete a specific interaction touchpoint record.
+ * Supports numeric ID or MongoDB ObjectId matching.
+ */
 router.delete("/:id", async (req, res) => {
   try {
     const idParam = req.params.id;
