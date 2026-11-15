@@ -337,7 +337,10 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-// DELETE /api/friends/:id - Delete friend and their activities
+/**
+ * DELETE /api/friends/:id - Delete friend and cascade cleanup activities.
+ * Safely removes friend document and all linked interaction records.
+ */
 router.delete("/:id", async (req, res) => {
   try {
     const idParam = req.params.id;
