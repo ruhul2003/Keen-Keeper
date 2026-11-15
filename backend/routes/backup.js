@@ -17,6 +17,7 @@ router.get("/export", async (req, res) => {
       version: "1.0.0",
       database: "Keen-Keeper",
       exportDate: new Date().toISOString(),
+      generatedBy: "Keen-Keeper CRM Data Engine",
       counts: {
         friends: friends.length,
         activities: activities.length,
