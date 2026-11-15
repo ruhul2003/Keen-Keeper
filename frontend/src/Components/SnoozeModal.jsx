@@ -59,7 +59,7 @@ const SnoozeModal = ({ isOpen, onClose, friend, onUpdated }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-fadeIn">
+    <div role="dialog" aria-modal="true" aria-labelledby="snooze-modal-title" className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-fadeIn">
       <div className="bg-white w-full max-w-md rounded-2xl shadow-2xl overflow-hidden border border-gray-100">
         {/* HEADER */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 bg-[#FAFBFB]">
@@ -68,7 +68,7 @@ const SnoozeModal = ({ isOpen, onClose, friend, onUpdated }) => {
               <RiAlarmSnoozeLine className="text-xl" />
             </span>
             <div>
-              <h2 className="text-lg font-bold text-gray-800">Snooze Reminder</h2>
+              <h2 id="snooze-modal-title" className="text-lg font-bold text-gray-800">Snooze Reminder</h2>
               <p className="text-xs text-gray-500">Temporarily pause overdue alerts</p>
             </div>
           </div>
