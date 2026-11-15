@@ -95,7 +95,8 @@ const UpcomingBirthdaysBanner = () => {
 
           <button
             onClick={() => setIsDismissed(true)}
-            className="text-gray-400 hover:text-gray-600 p-1.5 rounded-lg hover:bg-purple-100/50 transition"
+            aria-label="Dismiss upcoming birthday banner"
+            className="text-gray-400 hover:text-gray-600 p-1.5 rounded-lg hover:bg-purple-100/50 transition cursor-pointer"
             title="Dismiss notification"
           >
             <RiCloseLine className="text-lg" />
